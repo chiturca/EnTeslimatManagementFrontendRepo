@@ -80,4 +80,30 @@ export class CustomerComponent implements OnInit {
       }
     });
   }
+  activateCustomer(customerId: number): void {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '',
+      data: {
+        title: 'Emin Misiniz?',
+        content: 'Bu müşteriyi aktifleştirmek istediğinizden emin misiniz?',
+      },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.customerService
+          .activateCustomerByCustomerId(customerId)
+          .subscribe({
+            next: (response) => {
+              this.toastrService.success(
+                response.message || 'Müşteri başarıyla aktifleştirildi'
+              );
+              this.getAllCustomersForManagement();
+            },
+            error: (httpErrorResponse) => {
+              this.toastrService.error(httpErrorResponse.error.message);
+            },
+          });
+      }
+    });
+  }
 }

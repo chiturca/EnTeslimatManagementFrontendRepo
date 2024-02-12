@@ -29,4 +29,10 @@ export class CustomerService {
       null
     );
   }
+  activateCustomerByCustomerId(id: number): Observable<ResponseModel> {
+    return this.httpClient.put<ResponseModel>(
+      `${this.baseApiUrl}activateCustomer/${id}`,
+      null
+    );
+  }
 }

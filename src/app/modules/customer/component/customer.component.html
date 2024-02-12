@@ -76,7 +76,15 @@
               >
                 <mat-icon color="warn">delete</mat-icon>
               </button>
-              <button matTooltip="Müşteriyi Aktif Et">
+              <button
+                matTooltip="Müşteriyi Aktif Et"
+                [matTooltipDisabled]="customer.entityStatus == 0"
+                (click)="activateCustomer(customer.id)"
+                [disabled]="customer.entityStatus == 0"
+                [ngClass]="{
+                  'disabled-button': customer.entityStatus == 0
+                }"
+              >
                 <mat-icon style="color: rgb(34 197 94)">check</mat-icon>
               </button>
             </div>
