@@ -1,36 +1,76 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatAutocomplete } from '@angular/material/autocomplete';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 import { UserService } from '../../user/services/user.service';
 import { CustomerService } from '../services/customer.service';
 import { GetAllCustomersForManagementResponseDto } from '../models/response/get-all-customers-for-management-response-dto';
-import { ConfirmationDialogComponent } from '../../shared/components/Dialogs/confirmation-dialog/confirmation-dialog.component';
 import { GetUserByRefreshTokenResponseDtoModel } from '../../user/models/response/get-user-by-refresh-token-response-dto-model';
+import { EntityStatuses } from '../models/enums/entity-statuses';
+import { ConfirmationDialogComponent } from '../../shared/components/Dialogs/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-customer',
   templateUrl: './customer.component.html',
   styleUrls: ['./customer.component.css'],
 })
-export class CustomerComponent implements OnInit {
-  allCustomers: GetAllCustomersForManagementResponseDto[] = [];
-  getUserFromAuthByDtoModel: GetUserByRefreshTokenResponseDtoModel;
+export class CustomerComponent implements OnInit, AfterViewInit {
   isLoaded: boolean = false;
+  getUserFromAuthByDtoModel: GetUserByRefreshTokenResponseDtoModel;
+  searchInputControl: FormControl = new FormControl('');
+  dataSource!: MatTableDataSource<GetAllCustomersForManagementResponseDto>;
   @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatAutocomplete) auto!: MatAutocomplete;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
   constructor(
     private customerService: CustomerService,
     private userService: UserService,
     private toastrService: ToastrService,
+    private changeDetectorRef: ChangeDetectorRef,
     private dialog: MatDialog
   ) {
+    this.dataSource =
+      new MatTableDataSource<GetAllCustomersForManagementResponseDto>();
     this.getUserFromAuthByDtoModel =
       {} as GetUserByRefreshTokenResponseDtoModel;
   }
   ngOnInit(): void {
     this.getUserFromAuthByDto();
     this.getAllCustomersForManagement();
+    this.setupFilter();
     console.log();
+  }
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
+    this.changeDetectorRef.detectChanges();
+  }
+  setupFilter(): void {
+    this.searchInputControl.valueChanges
+      .pipe(
+        debounceTime(150),
+        distinctUntilChanged(),
+        map((value) => (typeof value === 'string' ? value : ''))
+      )
+      .subscribe((value) => {
+        this.applyFilter(value);
+      });
+  }
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
   getUserFromAuthByDto() {
     this.userService.getUserFromAuthByDto().subscribe((response) => {
@@ -42,9 +82,9 @@ export class CustomerComponent implements OnInit {
   getAllCustomersForManagement(): void {
     this.customerService.getAllCustomersForManagement().subscribe({
       next: (response) => {
-        this.allCustomers = response.data;
+        this.dataSource.data = response.data.reverse();
         this.isLoaded = response.success;
-        console.log(response);
+        this.changeDetectorRef.detectChanges();
       },
       error: (httpErrorResponse) => {
         this.toastrService.error(httpErrorResponse.error.message);
@@ -105,5 +145,35 @@ export class CustomerComponent implements OnInit {
           });
       }
     });
+  }
+  mapCustomerEntityStatus(type: EntityStatuses): string {
+    switch (type) {
+      case EntityStatuses.active:
+        return 'Aktif Müşteri';
+      case EntityStatuses.inactive:
+        return 'Pasif Müşteri';
+      default:
+        return 'Bilinmeyen Paket Tipi';
+    }
+  }
+  getColor(type: EntityStatuses): string {
+    switch (type) {
+      case EntityStatuses.active:
+        return 'rgb(34 197 94)';
+      case EntityStatuses.inactive:
+        return 'red';
+      default:
+        return 'Bilinmeyen Paket Tipi';
+    }
+  }
+  getBg(type: EntityStatuses): string {
+    switch (type) {
+      case EntityStatuses.active:
+        return 'rgba(34, 197, 94, 0.2)';
+      case EntityStatuses.inactive:
+        return 'rgba(255, 0, 0, 0.2)';
+      default:
+        return 'Bilinmeyen Paket Tipi';
+    }
   }
 }

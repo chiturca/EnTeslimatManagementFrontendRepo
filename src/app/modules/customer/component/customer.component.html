@@ -6,7 +6,11 @@
         <div class="addSearchHolder">
           <mat-form-field appearance="fill">
             <mat-icon matPrefix>search</mat-icon>
-            <input matInput placeholder="Müşterileri Ara" />
+            <input
+              matInput
+              placeholder="Müşterileri Ara"
+              [formControl]="searchInputControl"
+            />
           </mat-form-field>
         </div>
       </div>
@@ -18,7 +22,7 @@
         matSortActive="customerName"
         matSortDisableClear
         matSortDirection="desc"
-        [dataSource]="allCustomers"
+        [dataSource]="dataSource"
         class="mat-elevation-z8 transparent-table"
       >
         <ng-container matColumnDef="customerName">
@@ -93,7 +97,13 @@
         <ng-container matColumnDef="active">
           <th mat-header-cell *matHeaderCellDef>Müşteri Aktiflik Durumu</th>
           <td mat-cell *matCellDef="let customer">
-            {{ customer.entityStatus }}
+            <div
+              class="status"
+              [style.color]="getColor(customer.entityStatus)"
+              [style.background-color]="getBg(customer.entityStatus)"
+            >
+              {{ mapCustomerEntityStatus(customer.entityStatus) }}
+            </div>
           </td>
         </ng-container>
         <tr

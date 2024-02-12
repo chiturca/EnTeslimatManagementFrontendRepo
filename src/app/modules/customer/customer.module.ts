@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { CustomerRoutingModule } from './customer-routing.module';
 import { CustomerComponent } from './component/customer.component';
 import { RoutesContainerModule } from '../shared/routes-container/routes-container.module';
@@ -22,17 +21,17 @@ import { MatDialogModule } from '@angular/material/dialog';
     CommonModule,
     CustomerRoutingModule,
     RoutesContainerModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
     MatCardModule,
     MatTableModule,
-    MatIconModule,
-    MatPaginatorModule,
-    MatInputModule,
-    MatFormFieldModule,
-    ReactiveFormsModule,
-    MatButtonModule,
     MatSortModule,
+    MatIconModule,
+    MatInputModule,
+    MatButtonModule,
     MatTooltipModule,
     MatDialogModule,
+    MatPaginatorModule,
   ],
 })
 export class CustomerModule {}
