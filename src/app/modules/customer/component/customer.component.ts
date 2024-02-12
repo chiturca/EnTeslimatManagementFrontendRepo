@@ -20,6 +20,7 @@ import { GetAllCustomersForManagementResponseDto } from '../models/response/get-
 import { GetUserByRefreshTokenResponseDtoModel } from '../../user/models/response/get-user-by-refresh-token-response-dto-model';
 import { EntityStatuses } from '../models/enums/entity-statuses';
 import { ConfirmationDialogComponent } from '../../shared/components/Dialogs/confirmation-dialog/confirmation-dialog.component';
+import { CustomerAddressesDialogComponent } from '../../shared/components/Dialogs/Customer/customer-addresses-dialog/customer-addresses-dialog.component';
 
 @Component({
   selector: 'app-customer',
@@ -51,7 +52,6 @@ export class CustomerComponent implements OnInit, AfterViewInit {
     this.getUserFromAuthByDto();
     this.getAllCustomersForManagement();
     this.setupFilter();
-    console.log();
   }
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
@@ -118,6 +118,7 @@ export class CustomerComponent implements OnInit, AfterViewInit {
   getAllCustomersForManagement(): void {
     this.customerService.getAllCustomersForManagement().subscribe({
       next: (response) => {
+        console.log(response);
         this.dataSource.data = response.data.reverse();
         this.isLoaded = response.success;
         this.changeDetectorRef.detectChanges();
@@ -125,6 +126,19 @@ export class CustomerComponent implements OnInit, AfterViewInit {
       error: (httpErrorResponse) => {
         this.toastrService.error(httpErrorResponse.error.message);
       },
+    });
+  }
+  openCustomerAddressesDialog(
+    customer: GetAllCustomersForManagementResponseDto
+  ): void {
+    const dialogRef = this.dialog.open(CustomerAddressesDialogComponent, {
+      data: { customer },
+      maxWidth: '40em',
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.getAllCustomersForManagement();
+      }
     });
   }
   deleteCustomer(customerId: number): void {

@@ -44,7 +44,9 @@
         <ng-container matColumnDef="customerDeliveryAddress">
           <th mat-header-cell *matHeaderCellDef>Müşteri Teslimat Adresi</th>
           <td mat-cell *matCellDef="let customer">
-            <button mat-button>Müşteri Teslimat Adresleri</button>
+            <button mat-button (click)="openCustomerAddressesDialog(customer)">
+              Müşteri Teslimat Adresleri
+            </button>
           </td>
         </ng-container>
         <ng-container matColumnDef="sellerName">

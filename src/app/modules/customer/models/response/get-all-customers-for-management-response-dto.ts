@@ -6,7 +6,7 @@ export interface GetAllCustomersForManagementResponseDto {
   id: number;
   customerName: string;
   customerType: CustomerTypeEnum;
-  deliveryAddresses: DeliveryAddressDtoVersion2;
+  deliveryAddresses: DeliveryAddressDtoVersion2[];
   sellerName: string;
   sellerAddressName: string;
   entityStatus: EntityStatuses;
