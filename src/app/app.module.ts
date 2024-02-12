@@ -1,6 +1,8 @@
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import localeTr from '@angular/common/locales/tr';
+import { registerLocaleData } from '@angular/common';
 import { ToastrModule } from 'ngx-toastr';
 import { CookieService } from 'ngx-cookie-service';
 import { AppComponent } from './app.component';
@@ -20,6 +22,7 @@ import { WarehouseRegionModule } from './modules/warehouse-region/warehouse-regi
 import { DashboardModule } from './modules/dashboard/dashboard.module';
 import { FinanceModule } from './modules/finance/finance.module';
 import { CustomerModule } from './modules/customer/customer.module';
+registerLocaleData(localeTr);
 
 @NgModule({
   declarations: [AppComponent],
@@ -45,7 +48,11 @@ import { CustomerModule } from './modules/customer/customer.module';
       positionClass: 'toast-bottom-right',
     }),
   ],
-  providers: [CookieService, AuthGuard],
+  providers: [
+    CookieService,
+    AuthGuard,
+    { provide: LOCALE_ID, useValue: 'tr-TR' },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

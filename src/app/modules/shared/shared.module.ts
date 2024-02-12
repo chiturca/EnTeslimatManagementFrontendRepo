@@ -1,31 +1,50 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { LayoutModule } from '@angular/cdk/layout';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { ResponsiveToolbarComponent } from './components/responsive-toolbar/responsive-toolbar.component';
-import { ResponsiveSidenavComponent } from './components/responsive-sidenav/responsive-sidenav.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
-import { LayoutModule } from '@angular/cdk/layout';
-import { SharedRoutingModule } from './shared-routing.module';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatTableModule } from '@angular/material/table';
+import { SharedRoutingModule } from './shared-routing.module';
+import { ResponsiveToolbarComponent } from './components/responsive-toolbar/responsive-toolbar.component';
+import { ResponsiveSidenavComponent } from './components/responsive-sidenav/responsive-sidenav.component';
+import { ConfirmationDialogComponent } from './components/Dialogs/confirmation-dialog/confirmation-dialog.component';
+import { CustomerAddressesDialogComponent } from './components/Dialogs/Customer/customer-addresses-dialog/customer-addresses-dialog.component';
 
 @NgModule({
-  declarations: [ResponsiveToolbarComponent, ResponsiveSidenavComponent],
+  declarations: [
+    ResponsiveToolbarComponent,
+    ResponsiveSidenavComponent,
+    ConfirmationDialogComponent,
+    CustomerAddressesDialogComponent,
+  ],
   imports: [
     CommonModule,
+    FlexLayoutModule,
+    LayoutModule,
+    SharedRoutingModule,
+    ReactiveFormsModule,
+    FormsModule,
     MatSidenavModule,
     MatToolbarModule,
     MatButtonModule,
     MatIconModule,
     MatListModule,
-    FlexLayoutModule,
-    LayoutModule,
-    SharedRoutingModule,
     MatExpansionModule,
+    MatDialogModule,
+    MatTableModule,
   ],
-  exports: [ResponsiveToolbarComponent, ResponsiveSidenavComponent],
+  exports: [
+    ResponsiveToolbarComponent,
+    ResponsiveSidenavComponent,
+    ConfirmationDialogComponent,
+    CustomerAddressesDialogComponent,
+  ],
 })
 export class SharedModule {}

@@ -1,0 +1,65 @@
+<div>
+  <h2 mat-dialog-title>{{ data.customer.customerName }}</h2>
+  <mat-dialog-content>
+    <h3>Teslimat Adresleri:</h3>
+
+    <table
+      mat-table
+      [dataSource]="data.customer.deliveryAddresses"
+      class="mat-elevation-z8 transparent-table"
+      style="margin-bottom: 1rem"
+    >
+      <!-- Column definitions -->
+      <ng-container matColumnDef="address">
+        <th mat-header-cell *matHeaderCellDef>Adres</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.address }}
+          <b>
+            <span [ngClass]="{ 'empty-field': !element.neighbourhoodName }">
+              {{ element.neighbourhoodName || "Mahalle Belirtilmemiş" }}
+            </span> </b
+          >/
+          <b>
+            <span [ngClass]="{ 'empty-field': !element.districtName }">
+              {{ element.districtName || "İlçe Belirtilmemiş" }}
+            </span>
+            <b>/</b>
+            <span [ngClass]="{ 'empty-field': !element.cityName }">
+              {{ element.cityName || "Şehir Belirtilmemiş" }}
+            </span>
+          </b>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="delete">
+        <th mat-header-cell *matHeaderCellDef>Adresi Sil</th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button tabindex="-1" color="warn">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="update">
+        <th mat-header-cell *matHeaderCellDef>Adresi Güncelle</th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button tabindex="-1" color="primary">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <!-- Table rows -->
+      <tr
+        mat-header-row
+        *matHeaderRowDef="['address', 'delete', 'update']"
+      ></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: ['address', 'delete', 'update']"
+      ></tr>
+    </table>
+
+    <button mat-button tabindex="-1">Yeni Adres Ekle</button>
+  </mat-dialog-content>
+</div>
