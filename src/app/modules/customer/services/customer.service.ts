@@ -20,4 +20,13 @@ export class CustomerService {
       ListResponseModel<GetAllCustomersForManagementResponseDto>
     >(this.baseApiUrl + 'getAllCustomersForManagement');
   }
+  deleteCustomerLocallyById(
+    id: number,
+    deletedById: number
+  ): Observable<ResponseModel> {
+    return this.httpClient.put<ResponseModel>(
+      `${this.baseApiUrl}deleteCustomerLocallyById?id=${id}&deletedById=${deletedById}`,
+      null
+    );
+  }
 }

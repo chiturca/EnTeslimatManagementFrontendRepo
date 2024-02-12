@@ -24,7 +24,12 @@
         <ng-container matColumnDef="customerName">
           <th mat-header-cell *matHeaderCellDef>Müşteri İsim</th>
           <td mat-cell *matCellDef="let customer">
-            {{ customer.customerName }}
+            <div
+              class="grayBg"
+              [ngClass]="{ 'disabled-button': customer.entityStatus == 1 }"
+            >
+              {{ customer.customerName }}
+            </div>
           </td>
         </ng-container>
         <ng-container matColumnDef="customerDeliveryAddress">
@@ -35,12 +40,24 @@
         </ng-container>
         <ng-container matColumnDef="sellerName">
           <th mat-header-cell *matHeaderCellDef>Satıcı Adı</th>
-          <td mat-cell *matCellDef="let customer">{{ customer.sellerName }}</td>
+          <td mat-cell *matCellDef="let customer">
+            <div
+              class="grayBg"
+              [ngClass]="{ 'disabled-button': customer.entityStatus == 1 }"
+            >
+              {{ customer.sellerName }}
+            </div>
+          </td>
         </ng-container>
         <ng-container matColumnDef="sellerDealer">
           <th mat-header-cell *matHeaderCellDef>Satıcı Bayii</th>
           <td mat-cell *matCellDef="let customer">
-            {{ customer.sellerAddressName }}
+            <div
+              class="grayBg"
+              [ngClass]="{ 'disabled-button': customer.entityStatus == 1 }"
+            >
+              {{ customer.sellerAddressName }}
+            </div>
           </td>
         </ng-container>
         <!-- actions -->
@@ -48,7 +65,15 @@
           <th mat-header-cell *matHeaderCellDef>Operasyonlar</th>
           <td mat-cell *matCellDef="let customer">
             <div style="display: flex; flex-direction: row">
-              <button matTooltip="Müşteriyi Sil">
+              <button
+                matTooltip="Müşteriyi Sil"
+                [matTooltipDisabled]="customer.entityStatus == 1"
+                (click)="deleteCustomer(customer.id)"
+                [disabled]="customer.entityStatus == 1"
+                [ngClass]="{
+                  'disabled-button': customer.entityStatus == 1
+                }"
+              >
                 <mat-icon color="warn">delete</mat-icon>
               </button>
               <button matTooltip="Müşteriyi Aktif Et">
