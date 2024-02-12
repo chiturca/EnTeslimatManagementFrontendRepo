@@ -6,7 +6,8 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatSort } from '@angular/material/sort';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { MatSort, MatSortable, Sort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
@@ -38,6 +39,7 @@ export class CustomerComponent implements OnInit, AfterViewInit {
     private userService: UserService,
     private toastrService: ToastrService,
     private changeDetectorRef: ChangeDetectorRef,
+    private _liveAnnouncer: LiveAnnouncer,
     private dialog: MatDialog
   ) {
     this.dataSource =
@@ -53,6 +55,18 @@ export class CustomerComponent implements OnInit, AfterViewInit {
   }
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+    if (this.sort) {
+      this.sort.sortChange.subscribe((sort: Sort) => {
+        if (sort.active === 'customerName' && sort.direction) {
+          this.dataSource.data = this.dataSource.data.sort(
+            (a, b) =>
+              this.compareTurkishAlphabet(a.customerName, b.customerName) *
+              (sort.direction === 'asc' ? 1 : -1)
+          );
+        }
+      });
+    }
     this.changeDetectorRef.detectChanges();
   }
   setupFilter(): void {
@@ -71,6 +85,28 @@ export class CustomerComponent implements OnInit, AfterViewInit {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+  announceSortChange(sortState: Sort) {
+    if (sortState.direction) {
+      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+    } else {
+      this._liveAnnouncer.announce('Sorting cleared');
+    }
+  }
+  compareTurkishAlphabet(a: string, b: string): number {
+    const valueA = a?.toLowerCase();
+    const valueB = b?.toLowerCase();
+
+    const alphabet = 'abcçdefgğhıijklmnoöprsştuüvyz';
+    const indexA = alphabet.indexOf(valueA);
+    const indexB = alphabet.indexOf(valueB);
+
+    if (indexA === -1 || indexB === -1) {
+      // If character is not found in the Turkish alphabet, use default comparison
+      return valueA.localeCompare(valueB);
+    }
+
+    return indexA - indexB;
   }
   getUserFromAuthByDto() {
     this.userService.getUserFromAuthByDto().subscribe((response) => {

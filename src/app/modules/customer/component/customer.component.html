@@ -19,14 +19,19 @@
       <table
         mat-table
         matSort
-        matSortActive="customerName"
-        matSortDisableClear
-        matSortDirection="desc"
+        (matSortChange)="announceSortChange($event)"
         [dataSource]="dataSource"
         class="mat-elevation-z8 transparent-table"
       >
         <ng-container matColumnDef="customerName">
-          <th mat-header-cell *matHeaderCellDef>Müşteri İsim</th>
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            sortActionDescription="Sort by customerName"
+          >
+            Müşteri İsim
+          </th>
           <td mat-cell *matCellDef="let customer">
             <div
               class="grayBg"
@@ -43,7 +48,14 @@
           </td>
         </ng-container>
         <ng-container matColumnDef="sellerName">
-          <th mat-header-cell *matHeaderCellDef>Satıcı Adı</th>
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            sortActionDescription="Sort by sellerName"
+          >
+            Satıcı Adı
+          </th>
           <td mat-cell *matCellDef="let customer">
             <div
               class="grayBg"
@@ -94,8 +106,15 @@
             </div>
           </td>
         </ng-container>
-        <ng-container matColumnDef="active">
-          <th mat-header-cell *matHeaderCellDef>Müşteri Aktiflik Durumu</th>
+        <ng-container matColumnDef="entityStatus">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            sortActionDescription="Sort by entityStatus"
+          >
+            Müşteri Aktiflik Durumu
+          </th>
           <td mat-cell *matCellDef="let customer">
             <div
               class="status"
@@ -114,7 +133,7 @@
             'sellerName',
             'sellerDealer',
             'operations',
-            'active'
+            'entityStatus'
           ]"
         ></tr>
         <tr
@@ -127,7 +146,7 @@
               'sellerName',
               'sellerDealer',
               'operations',
-              'active'
+              'entityStatus'
             ]
           "
         ></tr>
