@@ -1,0 +1,23 @@
+.routesContainer {
+  height: 90vh;
+}
+.sidenav-container {
+  height: 100%;
+}
+
+.sidenav {
+  width: 500px;
+}
+
+.content {
+  margin-left: 500px;
+}
+.content-container {
+  margin: 0;
+  height: 100%;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 1rem;
+}

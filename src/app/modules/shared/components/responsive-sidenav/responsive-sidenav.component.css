@@ -1,0 +1,11 @@
+.sidenav-container {
+  height: 100%;
+}
+
+.sidenav {
+  width: 500px;
+}
+
+.content {
+  margin-left: 500px;
+}

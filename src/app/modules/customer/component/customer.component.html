@@ -1,0 +1,85 @@
+<app-routes-container>
+  <mat-card style="width: 100%">
+    <mat-card-header>
+      <div class="header-container">
+        <h2 style="margin-right: 1.25rem">Müşteriler</h2>
+        <div class="addSearchHolder">
+          <mat-form-field appearance="fill">
+            <mat-icon matPrefix>search</mat-icon>
+            <input matInput placeholder="Müşterileri Ara" />
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-card-header>
+    <mat-card-content>
+      <table mat-table class="mat-elevation-z8 transparent-table">
+        <ng-container matColumnDef="customerName">
+          <th mat-header-cell *matHeaderCellDef>Müşteri İsim</th>
+          <td mat-cell *matCellDef="let customer"></td>
+        </ng-container>
+        <ng-container matColumnDef="customerDeliveryAddress">
+          <th mat-header-cell *matHeaderCellDef>Müşteri Teslimat Adresi</th>
+          <td mat-cell *matCellDef="let customer"></td>
+        </ng-container>
+        <ng-container matColumnDef="sellerName">
+          <th mat-header-cell *matHeaderCellDef>Satıcı Adı</th>
+          <td mat-cell *matCellDef="let customer"></td>
+        </ng-container>
+        <ng-container matColumnDef="sellerDealer">
+          <th mat-header-cell *matHeaderCellDef>Satıcı Bayii</th>
+          <td mat-cell *matCellDef="let customer"></td>
+        </ng-container>
+        <!-- actions -->
+        <ng-container matColumnDef="customerDelete">
+          <th mat-header-cell *matHeaderCellDef>Müşteriyi Sil</th>
+          <td mat-cell *matCellDef="let customer">
+            <button>
+              <mat-icon color="warn">delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="customerUpdate">
+          <th mat-header-cell *matHeaderCellDef>Müşteriyi Güncelle</th>
+          <td mat-cell *matCellDef="let customer">
+            <button>
+              <mat-icon style="color: rgb(59 130 246)">edit</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+        <tr
+          mat-header-row
+          *matHeaderRowDef="[
+            'customerName',
+            'customerDeliveryAddress',
+            'sellerName',
+            'sellerDealer',
+            'customerDelete',
+            'customerUpdate'
+          ]"
+        ></tr>
+        <tr
+          mat-row
+          *matRowDef="
+            let row;
+            columns: [
+              'customerName',
+              'customerDeliveryAddress',
+              'sellerName',
+              'sellerDealer',
+              'customerDelete',
+              'customerUpdate'
+            ]
+          "
+        ></tr>
+      </table>
+    </mat-card-content>
+    <mat-card-footer
+      ><mat-paginator
+        #paginator
+        [pageSizeOptions]="[25, 50, 75, 100]"
+        showFirstLastButtons
+      >
+      </mat-paginator
+    ></mat-card-footer>
+  </mat-card>
+</app-routes-container>

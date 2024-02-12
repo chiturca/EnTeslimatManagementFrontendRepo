@@ -1,0 +1,35 @@
+<div class="routesContainer">
+  <app-responsive-toolbar (toggleSidenav)="toggle()"></app-responsive-toolbar>
+  <mat-sidenav-container class="sidenav-container" #responsiveSidenav>
+    <mat-sidenav #sidenav mode="push" position="start" [opened]="true">
+      <mat-accordion>
+        <ng-container *ngFor="let panel of panelItems">
+          <mat-expansion-panel *ngIf="panel.header !== ''">
+            <mat-expansion-panel-header>
+              {{ panel.header }}
+            </mat-expansion-panel-header>
+            <mat-nav-list>
+              <ng-container *ngFor="let route of panel.routes">
+                <a mat-list-item [routerLink]="[route.route]">{{
+                  route.label
+                }}</a>
+              </ng-container>
+            </mat-nav-list>
+          </mat-expansion-panel>
+          <ng-container *ngIf="panel.header === ''">
+            <mat-nav-list>
+              <a mat-list-item [routerLink]="[panel.routes[0].route]">{{
+                panel.routes[0].label
+              }}</a>
+            </mat-nav-list>
+          </ng-container>
+        </ng-container>
+      </mat-accordion>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <main class="content-container">
+        <ng-content></ng-content>
+      </main>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>
