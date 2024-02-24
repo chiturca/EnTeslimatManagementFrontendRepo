@@ -9,6 +9,7 @@ import { CheckUserAuthenticationModel } from '../models/check-user-authenticatio
 import { SingleResponseModel } from 'src/app/generic-models/single-response-model';
 import { AccessToken } from '../models/access-token';
 import { CookieService } from 'ngx-cookie-service';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
   providedIn: 'root',
@@ -25,7 +26,8 @@ export class AuthService {
 
   constructor(
     private httpClient: HttpClient,
-    private cookieService: CookieService
+    private cookieService: CookieService,
+    private jwtHelper: JwtHelperService
   ) {}
 
   login(
@@ -83,5 +85,17 @@ export class AuthService {
         }
       },
     });
+  }
+
+  isAuthenticated(): boolean {
+    const token = localStorage.getItem('token');
+    return !this.jwtHelper.isTokenExpired(token);
+  }
+  logOut(): Observable<ResponseModel> {
+    return this.httpClient.put<ResponseModel>(
+      environment.apiUrl + 'Auths/logout',
+      {},
+      { withCredentials: true }
+    );
   }
 }

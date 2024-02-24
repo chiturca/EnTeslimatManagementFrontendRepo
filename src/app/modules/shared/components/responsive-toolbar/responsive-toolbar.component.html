@@ -1,8 +1,14 @@
 <!-- responsive-toolbar.component.html -->
 
 <mat-toolbar color="primary">
-  <button mat-icon-button (click)="emitToggleSidenav()">
-    <mat-icon>menu</mat-icon>
+  <div class="left">
+    <button mat-icon-button (click)="emitToggleSidenav()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span>En Teslimat Yönetim Paneli</span>
+  </div>
+  <button mat-button (click)="handleLogout()">
+    <mat-icon>exit_to_app</mat-icon>
+    <span>Çıkış</span>
   </button>
-  <span>En Teslimat Yönetim Paneli</span>
 </mat-toolbar>
