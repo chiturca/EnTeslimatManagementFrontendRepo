@@ -1,4 +1,4 @@
 export const environment = {
-    production: true,
-    apiUrl: 'https://localhost:44327/api/'
-  };
+  production: true,
+  apiUrl: 'https://api.nteslimat.com/api/',
+};
