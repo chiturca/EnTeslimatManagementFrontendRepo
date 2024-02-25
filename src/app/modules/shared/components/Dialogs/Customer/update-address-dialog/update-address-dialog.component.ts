@@ -86,7 +86,6 @@ export class UpdateAddressDialogComponent implements OnInit {
         newDistrictKey: this.updateForm.get('district')?.value,
         newNeighbourhoodKey: this.updateForm.get('neighbourhood')?.value,
       };
-      console.log();
       this.deliveryAddressService
         .updateDeliveryAddressForManagement(updateRequest)
         .pipe(

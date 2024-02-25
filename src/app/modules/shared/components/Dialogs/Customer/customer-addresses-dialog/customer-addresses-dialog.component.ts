@@ -8,6 +8,7 @@ import { DeliveryAddressDtoVersion2 } from 'src/app/modules/customer/models/resp
 import { ConfirmationDialogComponent } from '../../confirmation-dialog/confirmation-dialog.component';
 import { UpdateAddressDialogComponent } from '../update-address-dialog/update-address-dialog.component';
 import { UpdateDeliveryAddressDtoForManagement } from 'src/app/modules/shared/models/update-delivery-address-dto-for-management';
+import { AddAddressDialogComponent } from '../add-address-dialog/add-address-dialog.component';
 
 @Component({
   selector: 'app-customer-addresses-dialog',
@@ -40,7 +41,7 @@ export class CustomerAddressesDialogComponent implements OnInit {
   }
   deleteAddress(deliveryAddressId: number): void {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '',
+      maxWidth: '50em',
       data: {
         title: 'Emin Misiniz?',
         content: 'Bu adresi silmek istediğinizden emin misiniz?',
@@ -95,6 +96,12 @@ export class CustomerAddressesDialogComponent implements OnInit {
             });
         }
       }
+    });
+  }
+  addAddress(): void {
+    const dialogRef = this.dialog.open(AddAddressDialogComponent, {
+      maxWidth: '50em',
+      data: this.data,
     });
   }
 }
