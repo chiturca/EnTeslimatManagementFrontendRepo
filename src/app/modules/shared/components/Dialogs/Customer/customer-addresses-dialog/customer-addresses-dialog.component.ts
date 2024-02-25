@@ -2,9 +2,12 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { UserService } from 'src/app/modules/user/services/user.service';
-import { GetUserByRefreshTokenResponseDtoModel } from 'src/app/modules/user/models/response/get-user-by-refresh-token-response-dto-model';
-import { ConfirmationDialogComponent } from '../../confirmation-dialog/confirmation-dialog.component';
 import { DeliveryAddressService } from 'src/app/modules/shared/services/delivery-address.service';
+import { GetUserByRefreshTokenResponseDtoModel } from 'src/app/modules/user/models/response/get-user-by-refresh-token-response-dto-model';
+import { DeliveryAddressDtoVersion2 } from 'src/app/modules/customer/models/response/delivery-address-dto-version2';
+import { ConfirmationDialogComponent } from '../../confirmation-dialog/confirmation-dialog.component';
+import { UpdateAddressDialogComponent } from '../update-address-dialog/update-address-dialog.component';
+import { UpdateDeliveryAddressDtoForManagement } from 'src/app/modules/shared/models/update-delivery-address-dto-for-management';
 
 @Component({
   selector: 'app-customer-addresses-dialog',
@@ -26,11 +29,11 @@ export class CustomerAddressesDialogComponent implements OnInit {
   }
   ngOnInit(): void {
     this.getUserFromAuthByDto();
-    console.log(this.data);
+    // console.log(this.data);
   }
   getUserFromAuthByDto() {
     this.userService.getUserFromAuthByDto().subscribe((response) => {
-      console.log('uer response:', response);
+      // console.log('user response:', response);
       this.getUserFromAuthByDtoModel = response.data;
       this.isLoaded = false;
     });
@@ -60,6 +63,37 @@ export class CustomerAddressesDialogComponent implements OnInit {
               this.toastrService.error(httpErrorResponse.error.message);
             },
           });
+      }
+    });
+  }
+  updateAddress(address: DeliveryAddressDtoVersion2): void {
+    const dialogRef = this.dialog.open(UpdateAddressDialogComponent, {
+      data: address,
+      maxWidth: '50em',
+    });
+    dialogRef.afterClosed().subscribe((newAddress) => {
+      if (newAddress) {
+        const index = this.data.customer.deliveryAddresses.indexOf(address);
+        if (index !== -1) {
+          const updateRequest: UpdateDeliveryAddressDtoForManagement = {
+            deliveryAddressId: address.id,
+            newAddress: newAddress.address,
+            newCityKey: newAddress.newCityKey,
+            newDistrictKey: newAddress.newDistrictKey,
+            newNeighbourhoodKey: newAddress.newNeighbourhoodKey,
+          };
+          this.deliveryAddressService
+            .updateDeliveryAddressForManagement(updateRequest)
+            .subscribe((response) => {
+              if (response.success) {
+                this.data.customer.deliveryAddresses[index] = newAddress;
+                this.toastrService.success('Adres başarıyla güncellendi.');
+              } else {
+                this.toastrService.error(response.message) ||
+                  'Adres güncellenirken bir hata oluştu.';
+              }
+            });
+        }
       }
     });
   }

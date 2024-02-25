@@ -11,6 +11,9 @@ import { MatListModule } from '@angular/material/list';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
 import { SharedRoutingModule } from './shared-routing.module';
 import { ResponsiveToolbarComponent } from './components/responsive-toolbar/responsive-toolbar.component';
 import { ResponsiveSidenavComponent } from './components/responsive-sidenav/responsive-sidenav.component';
@@ -43,6 +46,9 @@ import { UpdateAddressDialogComponent } from './components/Dialogs/Customer/upda
     MatExpansionModule,
     MatDialogModule,
     MatTableModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatInputModule,
   ],
   exports: [
     ResponsiveToolbarComponent,

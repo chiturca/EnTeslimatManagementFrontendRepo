@@ -48,7 +48,12 @@
       <ng-container matColumnDef="update">
         <th mat-header-cell *matHeaderCellDef>Adresi Güncelle</th>
         <td mat-cell *matCellDef="let element">
-          <button mat-icon-button tabindex="-1" color="primary">
+          <button
+            mat-icon-button
+            tabindex="-1"
+            color="primary"
+            (click)="updateAddress(element)"
+          >
             <mat-icon>edit</mat-icon>
           </button>
         </td>
