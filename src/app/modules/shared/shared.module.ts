@@ -16,6 +16,8 @@ import { ResponsiveToolbarComponent } from './components/responsive-toolbar/resp
 import { ResponsiveSidenavComponent } from './components/responsive-sidenav/responsive-sidenav.component';
 import { ConfirmationDialogComponent } from './components/Dialogs/confirmation-dialog/confirmation-dialog.component';
 import { CustomerAddressesDialogComponent } from './components/Dialogs/Customer/customer-addresses-dialog/customer-addresses-dialog.component';
+import { AddAddressDialogComponent } from './components/Dialogs/Customer/add-address-dialog/add-address-dialog.component';
+import { UpdateAddressDialogComponent } from './components/Dialogs/Customer/update-address-dialog/update-address-dialog.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +25,8 @@ import { CustomerAddressesDialogComponent } from './components/Dialogs/Customer/
     ResponsiveSidenavComponent,
     ConfirmationDialogComponent,
     CustomerAddressesDialogComponent,
+    AddAddressDialogComponent,
+    UpdateAddressDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -45,6 +49,8 @@ import { CustomerAddressesDialogComponent } from './components/Dialogs/Customer/
     ResponsiveSidenavComponent,
     ConfirmationDialogComponent,
     CustomerAddressesDialogComponent,
+    AddAddressDialogComponent,
+    UpdateAddressDialogComponent,
   ],
 })
 export class SharedModule {}

@@ -110,6 +110,7 @@ export class CustomerComponent implements OnInit, AfterViewInit {
   }
   getUserFromAuthByDto() {
     this.userService.getUserFromAuthByDto().subscribe((response) => {
+      console.log('Cust User Response:', response);
       this.getUserFromAuthByDtoModel = response.data;
       this.isLoaded = false;
       this.getAllCustomersForManagement();
