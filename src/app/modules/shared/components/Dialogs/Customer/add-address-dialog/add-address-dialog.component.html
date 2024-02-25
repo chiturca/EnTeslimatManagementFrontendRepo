@@ -1,0 +1,56 @@
+<div>
+  <h2 mat-dialog-title>Yeni Adres Ekle</h2>
+  <mat-dialog-content class="mat-typography">
+    <form [formGroup]="addAddressForm">
+      <mat-form-field appearance="fill" style="width: 100%">
+        <mat-label>İl</mat-label>
+        <mat-select
+          formControlName="city"
+          (selectionChange)="onCityChange($event)"
+        >
+          <mat-option *ngFor="let city of cities" [value]="city.cityKey">
+            {{ city.cityName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" style="width: 100%">
+        <mat-label>İlçe</mat-label>
+        <mat-select
+          formControlName="district"
+          (selectionChange)="onDistrictChange($event)"
+        >
+          <mat-option
+            *ngFor="let district of districts"
+            [value]="district.districtKey"
+          >
+            {{ district.districtName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" style="width: 100%">
+        <mat-label>Mahalle</mat-label>
+        <mat-select
+          formControlName="neighbourhood"
+          (selectionChange)="onNeighbourhoodChange($event)"
+        >
+          <mat-option
+            *ngFor="let neighbourhood of neighbourhoods"
+            [value]="neighbourhood.neighbourhoodKey"
+          >
+            {{ neighbourhood.neighbourhoodName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="fill" style="width: 100%">
+        <mat-label>Açık Teslimat Adresi</mat-label>
+        <input matInput formControlName="address" />
+      </mat-form-field>
+    </form>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button (click)="onSubmit()">Ekle</button>
+    <button mat-button (click)="cancel()">İptal</button>
+  </mat-dialog-actions>
+</div>

@@ -49,7 +49,7 @@ export class CustomerComponent implements OnInit, AfterViewInit {
       {} as GetUserByRefreshTokenResponseDtoModel;
   }
   ngOnInit(): void {
-    this.getUserFromAuthByDto();
+    // this.getUserFromAuthByDto();
     this.getAllCustomersForManagement();
     this.setupFilter();
   }
@@ -110,6 +110,7 @@ export class CustomerComponent implements OnInit, AfterViewInit {
   }
   getUserFromAuthByDto() {
     this.userService.getUserFromAuthByDto().subscribe((response) => {
+      // console.log('Cust User Response:', response);
       this.getUserFromAuthByDtoModel = response.data;
       this.isLoaded = false;
       this.getAllCustomersForManagement();
@@ -118,7 +119,7 @@ export class CustomerComponent implements OnInit, AfterViewInit {
   getAllCustomersForManagement(): void {
     this.customerService.getAllCustomersForManagement().subscribe({
       next: (response) => {
-        console.log(response);
+        // console.log(response);
         this.dataSource.data = response.data.reverse();
         this.isLoaded = response.success;
         this.changeDetectorRef.detectChanges();
@@ -133,7 +134,7 @@ export class CustomerComponent implements OnInit, AfterViewInit {
   ): void {
     const dialogRef = this.dialog.open(CustomerAddressesDialogComponent, {
       data: { customer },
-      maxWidth: '40em',
+      maxWidth: '50em',
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
