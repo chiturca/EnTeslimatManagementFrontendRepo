@@ -24,6 +24,7 @@ import { UpdateAddressDialogComponent } from './components/Dialogs/Customer/upda
 import { SellerAddressesDialogComponent } from './components/Dialogs/Seller/seller-addresses-dialog/seller-addresses-dialog.component';
 import { AddSellerAddressComponent } from './components/Dialogs/Seller/add-seller-address/add-seller-address.component';
 import { UpdateSellerAddressComponent } from './components/Dialogs/Seller/update-seller-address/update-seller-address.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { UpdateSellerAddressComponent } from './components/Dialogs/Seller/update
     MatFormFieldModule,
     MatSelectModule,
     MatInputModule,
+    MatTooltipModule,
   ],
   exports: [
     ResponsiveToolbarComponent,

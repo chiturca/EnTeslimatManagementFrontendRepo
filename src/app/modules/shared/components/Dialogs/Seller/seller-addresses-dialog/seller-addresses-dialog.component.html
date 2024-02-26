@@ -13,29 +13,55 @@
       <ng-container matColumnDef="address">
         <th mat-header-cell *matHeaderCellDef>Adres</th>
         <td mat-cell *matCellDef="let element">
-          {{ element.address }}
-          <b>
-            <span [ngClass]="{ 'empty-field': !element.neighbourhoodName }">
-              {{ element.neighbourhoodName || "Mahalle Belirtilmemiş" }}
-            </span> </b
-          >/
-          <b>
-            <span [ngClass]="{ 'empty-field': !element.districtName }">
-              {{ element.districtName || "İlçe Belirtilmemiş" }}
-            </span>
-            <b>/</b>
-            <span [ngClass]="{ 'empty-field': !element.cityName }">
-              {{ element.cityName || "Şehir Belirtilmemiş" }}
-            </span>
-          </b>
+          <div [ngClass]="{ 'disabled-button': element.entityStatus == 1 }">
+            {{ element.address }}
+            <b>
+              <span [ngClass]="{ 'empty-field': !element.neighbourhoodName }">
+                {{ element.neighbourhoodName || "Mahalle Belirtilmemiş" }}
+              </span> </b
+            >/
+            <b>
+              <span [ngClass]="{ 'empty-field': !element.districtName }">
+                {{ element.districtName || "İlçe Belirtilmemiş" }}
+              </span>
+              <b>/</b>
+              <span [ngClass]="{ 'empty-field': !element.cityName }">
+                {{ element.cityName || "Şehir Belirtilmemiş" }}
+              </span>
+            </b>
+          </div>
         </td>
       </ng-container>
 
       <ng-container matColumnDef="delete">
         <th mat-header-cell *matHeaderCellDef>Adresi Sil</th>
         <td mat-cell *matCellDef="let element">
-          <button mat-icon-button tabindex="-1" color="warn">
-            <mat-icon>delete</mat-icon>
+          <button
+            tabindex="-1"
+            (click)="deactivateSellerAddressById(element.id)"
+            [disabled]="element.entityStatus == 1"
+            [ngClass]="{
+              'disabled-button': element.entityStatus == 1
+            }"
+          >
+            <mat-icon color="warn">delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="activate">
+        <th mat-header-cell *matHeaderCellDef>Adresi Aktifleştir</th>
+        <td mat-cell *matCellDef="let element">
+          <button
+            tabindex="-1"
+            color="warn"
+            (click)="activateSellerAddressById(element.id)"
+            [disabled]="element.entityStatus == 0"
+            [ngClass]="{
+              'disabled-button': element.entityStatus == 0
+            }"
+          >
+            <mat-icon style="color: rgb(34 197 94)">check</mat-icon>
           </button>
         </td>
       </ng-container>
@@ -43,7 +69,12 @@
       <ng-container matColumnDef="update">
         <th mat-header-cell *matHeaderCellDef>Adresi Güncelle</th>
         <td mat-cell *matCellDef="let element">
-          <button mat-icon-button tabindex="-1" color="primary">
+          <button
+            mat-icon-button
+            tabindex="-1"
+            color="primary"
+            (click)="updateSellerAddressById(element)"
+          >
             <mat-icon>edit</mat-icon>
           </button>
         </td>
@@ -52,14 +83,19 @@
       <!-- Table rows -->
       <tr
         mat-header-row
-        *matHeaderRowDef="['address', 'delete', 'update']"
+        *matHeaderRowDef="['address', 'delete', 'activate', 'update']"
       ></tr>
       <tr
         mat-row
-        *matRowDef="let row; columns: ['address', 'delete', 'update']"
+        *matRowDef="
+          let row;
+          columns: ['address', 'delete', 'activate', 'update']
+        "
       ></tr>
     </table>
 
-    <button mat-button tabindex="-1">Yeni Adres Ekle</button>
+    <button mat-button tabindex="-1" (click)="addSellerAddressToSeller()">
+      Yeni Adres Ekle
+    </button>
   </mat-dialog-content>
 </div>

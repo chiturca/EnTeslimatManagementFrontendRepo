@@ -4,4 +4,5 @@ export interface GetAllSellerAddressesResponseDto {
   districtName: string;
   neighbourhoodName: string;
   address: string;
+  //needs address entityStatus for ui disable for activate inactivate
 }

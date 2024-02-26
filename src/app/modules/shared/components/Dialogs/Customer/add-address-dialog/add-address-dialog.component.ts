@@ -12,8 +12,6 @@ import { District } from 'src/app/modules/shared/district/models/district';
 import { Neighbourhood } from 'src/app/modules/shared/neighbourhood/models/neighbourhood';
 import { GetUserByRefreshTokenResponseDtoModel } from 'src/app/modules/user/models/response/get-user-by-refresh-token-response-dto-model';
 import { AddDeliveryAddressToExistCustomerForManagementDto } from 'src/app/modules/shared/models/add-delivery-address-to-exist-customer-for-management-dto';
-import { UpdateAddressDialogComponent } from '../update-address-dialog/update-address-dialog.component';
-import { ResponseModel } from 'src/app/generic-models/response-model';
 
 @Component({
   selector: 'app-add-address-dialog',
@@ -53,7 +51,7 @@ export class AddAddressDialogComponent implements OnInit {
     private cityService: CityService,
     private districtService: DistrictService,
     private neighbourhoodService: NeighbourhoodService,
-    public dialogRef: MatDialogRef<UpdateAddressDialogComponent>
+    public dialogRef: MatDialogRef<AddAddressDialogComponent>
   ) {
     this.getUserFromAuthByDtoModel =
       {} as GetUserByRefreshTokenResponseDtoModel;
@@ -90,6 +88,9 @@ export class AddAddressDialogComponent implements OnInit {
           sellerId: this.getUserFromAuthByDtoModel.sellerId,
           sellerAddressId: this.getUserFromAuthByDtoModel.sellerAddressId,
           createdById: this.getUserFromAuthByDtoModel.userId,
+          //sellerId and sellerAddressId needs to come from somewhere else user is not the key
+          //createdById comes as 0 in admin user
+          //add same to delete address
         };
       this.deliveryAddressService
         .addDeliveryAddressToExistCustomerForManagement(addAddressRequest)
