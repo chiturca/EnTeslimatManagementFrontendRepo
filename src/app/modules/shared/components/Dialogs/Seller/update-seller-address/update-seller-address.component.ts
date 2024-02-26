@@ -1,26 +1,28 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
-import { CityService } from 'src/app/modules/shared/city/services/city.service';
-import { DistrictService } from 'src/app/modules/shared/district/services/district.service';
-import { NeighbourhoodService } from 'src/app/modules/shared/neighbourhood/services/neighbourhood.service';
-import { DeliveryAddressService } from 'src/app/modules/shared/services/delivery-address.service';
-import { UserService } from 'src/app/modules/user/services/user.service';
+import { catchError, throwError } from 'rxjs';
 import { City } from 'src/app/modules/shared/city/models/city';
+import { CityService } from 'src/app/modules/shared/city/services/city.service';
 import { District } from 'src/app/modules/shared/district/models/district';
+import { DistrictService } from 'src/app/modules/shared/district/services/district.service';
+import { UpdateSellerAddressRequestDto } from 'src/app/modules/shared/models/update-seller-address-request-dto';
 import { Neighbourhood } from 'src/app/modules/shared/neighbourhood/models/neighbourhood';
+import { NeighbourhoodService } from 'src/app/modules/shared/neighbourhood/services/neighbourhood.service';
+import { SellerAddressesService } from 'src/app/modules/shared/services/seller-addresses.service';
 import { GetUserByRefreshTokenResponseDtoModel } from 'src/app/modules/user/models/response/get-user-by-refresh-token-response-dto-model';
-import { AddDeliveryAddressToExistCustomerForManagementDto } from 'src/app/modules/shared/models/add-delivery-address-to-exist-customer-for-management-dto';
+import { UserService } from 'src/app/modules/user/services/user.service';
+import { UpdateAddressDialogComponent } from '../../Customer/update-address-dialog/update-address-dialog.component';
 
 @Component({
-  selector: 'app-add-address-dialog',
-  templateUrl: './add-address-dialog.component.html',
-  styleUrls: ['./add-address-dialog.component.css'],
+  selector: 'app-update-seller-address',
+  templateUrl: './update-seller-address.component.html',
+  styleUrls: ['./update-seller-address.component.css'],
 })
-export class AddAddressDialogComponent implements OnInit {
+export class UpdateSellerAddressComponent implements OnInit {
   isLoading = true;
-  addAddressForm!: FormGroup;
+  updateForm!: FormGroup;
   getUserFromAuthByDtoModel: GetUserByRefreshTokenResponseDtoModel;
   cities: City[] = [];
   districts: District[] = [];
@@ -47,11 +49,11 @@ export class AddAddressDialogComponent implements OnInit {
     private formBuilder: FormBuilder,
     private toastrService: ToastrService,
     private userService: UserService,
-    private deliveryAddressService: DeliveryAddressService,
+    private sellerAddressService: SellerAddressesService,
     private cityService: CityService,
     private districtService: DistrictService,
     private neighbourhoodService: NeighbourhoodService,
-    public dialogRef: MatDialogRef<AddAddressDialogComponent>
+    public dialogRef: MatDialogRef<UpdateAddressDialogComponent>
   ) {
     this.getUserFromAuthByDtoModel =
       {} as GetUserByRefreshTokenResponseDtoModel;
@@ -59,7 +61,7 @@ export class AddAddressDialogComponent implements OnInit {
   ngOnInit(): void {
     this.getUserFromAuthByDto();
     this.initializeForm();
-    // console.log(this.data);
+    console.log(this.data);
   }
   getUserFromAuthByDto() {
     this.userService.getUserFromAuthByDto().subscribe((response) => {
@@ -68,7 +70,7 @@ export class AddAddressDialogComponent implements OnInit {
     });
   }
   initializeForm(): void {
-    this.addAddressForm = this.formBuilder.group({
+    this.updateForm = this.formBuilder.group({
       city: ['', Validators.required],
       district: ['', Validators.required],
       neighbourhood: ['', Validators.required],
@@ -77,36 +79,34 @@ export class AddAddressDialogComponent implements OnInit {
     this.getAllCities();
   }
   onSubmit(): void {
-    if (this.addAddressForm.valid) {
-      const addAddressRequest: AddDeliveryAddressToExistCustomerForManagementDto =
-        {
-          customerId: this.data.customer.id,
-          cityKey: this.addAddressForm.get('city')?.value,
-          districtKey: this.addAddressForm.get('district')?.value,
-          neighbourhoodKey: this.addAddressForm.get('neighbourhood')?.value,
-          address: this.addAddressForm.get('address')?.value,
-          sellerId: this.getUserFromAuthByDtoModel.sellerId,
-          sellerAddressId: this.getUserFromAuthByDtoModel.sellerAddressId,
-          createdById: this.getUserFromAuthByDtoModel.userId,
-          //sellerId and sellerAddressId needs to come from somewhere else user is not the key
-          //createdById comes as 0 in admin user
-          //add same to delete address
-        };
-      this.deliveryAddressService
-        .addDeliveryAddressToExistCustomerForManagement(addAddressRequest)
+    if (this.updateForm.valid) {
+      const updateRequest: UpdateSellerAddressRequestDto = {
+        newAddress: this.updateForm.get('address')?.value,
+        newCityKey: this.updateForm.get('city')?.value,
+        newDistrictKey: this.updateForm.get('district')?.value,
+        newNeighbourhoodKey: this.updateForm.get('neighbourhood')?.value,
+      };
+      this.sellerAddressService
+        .updateSellerAddressById(updateRequest, this.data.id)
+        .pipe(
+          catchError((err) => {
+            this.toastrService.error(err.error.message);
+            return throwError(err);
+          })
+        )
         .subscribe({
-          next: (response) => {
-            this.toastrService.success(
-              response.message || 'Adres başarıyla eklendi.'
-            );
+          next: () => {
+            this.toastrService.success('Adres başarıyla güncellendi.');
             this.dialogRef.close();
           },
           error: (error) => {
-            this.toastrService.error('Adres eklenirken bir hata oluştu.');
+            this.toastrService.error(
+              error.error.message ||
+                'Adres güncelleme sırasında bir hata oluştu'
+            );
+            console.error(error);
           },
         });
-    } else {
-      this.toastrService.error('Lütfen geçerli bir adres giriniz.');
     }
   }
   getAllCities() {
@@ -122,7 +122,7 @@ export class AddAddressDialogComponent implements OnInit {
     const cityKey: number = event.value;
     this.cities.find((city) => city.cityKey === cityKey);
     this.selectedCity.cityKey = cityKey;
-    this.addAddressForm.patchValue({
+    this.updateForm.patchValue({
       newCustomerDeliveryAddressDto: {
         cityName: this.selectedCity.cityName,
       },
@@ -140,7 +140,7 @@ export class AddAddressDialogComponent implements OnInit {
     const districtKey: number = event.value;
     this.districts.find((d) => d.districtKey === event.value);
     this.selectedDistrict.districtKey = event.value;
-    this.addAddressForm.patchValue({
+    this.updateForm.patchValue({
       newCustomerDeliveryAddressDto: {
         districtName: this.selectedDistrict.districtName,
       },
@@ -159,14 +159,11 @@ export class AddAddressDialogComponent implements OnInit {
   onNeighbourhoodChange(event: any) {
     this.neighbourhoods.find((n) => n.neighbourhoodKey === event.value);
     this.selectedNeighbourhood.neighbourhoodKey = event.value;
-    this.addAddressForm.patchValue({
+    this.updateForm.patchValue({
       newCustomerDeliveryAddressDto: {
         neighbourhoodName: this.selectedNeighbourhood.neighbourhoodName,
       },
       neighbourhood: this.selectedNeighbourhood.neighbourhoodKey,
     });
-  }
-  cancel(): void {
-    this.dialogRef.close();
   }
 }
