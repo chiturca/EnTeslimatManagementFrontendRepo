@@ -94,7 +94,9 @@
             Şubeler
           </th>
           <td mat-cell *matCellDef="let seller">
-            <button mat-button>Şubeleri Görüntüle</button>
+            <button mat-button (click)="openAddressesDialog(seller)">
+              Şubeleri Görüntüle
+            </button>
           </td>
         </ng-container>
         <ng-container matColumnDef="operations">

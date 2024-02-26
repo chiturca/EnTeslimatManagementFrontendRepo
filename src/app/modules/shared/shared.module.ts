@@ -21,6 +21,9 @@ import { ConfirmationDialogComponent } from './components/Dialogs/confirmation-d
 import { CustomerAddressesDialogComponent } from './components/Dialogs/Customer/customer-addresses-dialog/customer-addresses-dialog.component';
 import { AddAddressDialogComponent } from './components/Dialogs/Customer/add-address-dialog/add-address-dialog.component';
 import { UpdateAddressDialogComponent } from './components/Dialogs/Customer/update-address-dialog/update-address-dialog.component';
+import { SellerAddressesDialogComponent } from './components/Dialogs/Seller/seller-addresses-dialog/seller-addresses-dialog.component';
+import { AddSellerAddressComponent } from './components/Dialogs/Seller/add-seller-address/add-seller-address.component';
+import { UpdateSellerAddressComponent } from './components/Dialogs/Seller/update-seller-address/update-seller-address.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +33,9 @@ import { UpdateAddressDialogComponent } from './components/Dialogs/Customer/upda
     CustomerAddressesDialogComponent,
     AddAddressDialogComponent,
     UpdateAddressDialogComponent,
+    SellerAddressesDialogComponent,
+    AddSellerAddressComponent,
+    UpdateSellerAddressComponent,
   ],
   imports: [
     CommonModule,
@@ -57,6 +63,9 @@ import { UpdateAddressDialogComponent } from './components/Dialogs/Customer/upda
     CustomerAddressesDialogComponent,
     AddAddressDialogComponent,
     UpdateAddressDialogComponent,
+    SellerAddressesDialogComponent,
+    AddSellerAddressComponent,
+    UpdateSellerAddressComponent,
   ],
 })
 export class SharedModule {}

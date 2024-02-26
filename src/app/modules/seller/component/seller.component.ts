@@ -20,6 +20,8 @@ import { UserService } from '../../user/services/user.service';
 import { GetAllSellerResponseDto } from '../models/get-all-seller-response-dto';
 import { GetUserByRefreshTokenResponseDtoModel } from '../../user/models/response/get-user-by-refresh-token-response-dto-model';
 import { EntityStatuses } from '../../customer/models/enums/entity-statuses';
+import { GetAllSellerAddressesResponseDto } from '../../shared/models/get-all-seller-addresses-response-dto';
+import { SellerAddressesDialogComponent } from '../../shared/components/Dialogs/Seller/seller-addresses-dialog/seller-addresses-dialog.component';
 
 @Component({
   selector: 'app-seller',
@@ -125,15 +127,26 @@ export class SellerComponent implements OnInit, AfterViewInit {
       },
     });
   }
+  openAddressesDialog(seller: GetAllSellerResponseDto): void {
+    const dialogRef = this.dialog.open(SellerAddressesDialogComponent, {
+      maxWidth: '50em',
+      data: { seller },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.getAll();
+      }
+    });
+  }
   formatCreatedTime(createdTime: Date | null): string {
     return this.datePipe.transform(createdTime, 'dd.MM.yyyy HH:mm') || '';
   }
   mapEntityStatus(type: EntityStatuses): string {
     switch (type) {
       case EntityStatuses.active:
-        return 'Aktif Müşteri';
+        return 'Aktif Satıcı';
       case EntityStatuses.inactive:
-        return 'Pasif Müşteri';
+        return 'Pasif Satıcı';
       default:
         return 'Bilinmeyen Paket Tipi';
     }
