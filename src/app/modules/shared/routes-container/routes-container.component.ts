@@ -70,8 +70,8 @@ export class RoutesContainerComponent {
       active: false,
     },
     {
-      header: 'Satıcı Müşteri Yönetimi',
-      routes: [{ label: 'Satıcı Müşteri İşlemleri', route: '/seller' }],
+      header: 'Satıcı Yönetimi',
+      routes: [{ label: 'Satıcı İşlemleri', route: '/seller' }],
       active: false,
     },
     {

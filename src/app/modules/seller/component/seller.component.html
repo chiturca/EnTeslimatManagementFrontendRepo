@@ -1,1 +1,182 @@
-<app-routes-container><p>seller works!</p></app-routes-container>
+<app-routes-container>
+  <mat-card style="width: 100%">
+    <mat-card-header>
+      <div class="header-container">
+        <h2 style="margin-right: 1.25rem">Satıcılar</h2>
+        <div class="addSearchHolder">
+          <button
+            matTooltip="Yeni Müşteri Ekle"
+            style="margin: 0 1.5rem"
+            aria-label="Müşteri ekle"
+          >
+            <mat-icon class="addBtn">control_point</mat-icon>
+          </button>
+          <mat-form-field appearance="fill">
+            <mat-icon matPrefix>search</mat-icon>
+            <input
+              matInput
+              placeholder="Satıcıları Ara"
+              [formControl]="searchInputControl"
+            />
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-card-header>
+    <mat-card-content>
+      <table
+        mat-table
+        matSort
+        (matSortChange)="announceSortChange($event)"
+        [dataSource]="dataSource"
+        class="mat-elevation-z8 transparent-table"
+      >
+        <ng-container matColumnDef="taxId">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            sortActionDescription="Sort by taxId"
+          >
+            Vergi Kimlik Numarası
+          </th>
+          <td mat-cell *matCellDef="let seller">
+            <div
+              class="grayBg"
+              [ngClass]="{ 'disabled-button': seller.entityStatus == 1 }"
+            >
+              {{ seller.taxId }}
+            </div>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="sellerName">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            sortActionDescription="Sort by sellerName"
+          >
+            İsim
+          </th>
+          <td mat-cell *matCellDef="let seller">
+            <div
+              class="grayBg"
+              [ngClass]="{ 'disabled-button': seller.entityStatus == 1 }"
+            >
+              {{ seller.name }}
+            </div>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="createdTime">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            sortActionDescription="Sort by createdTime"
+          >
+            Anlaşma Tarihi
+          </th>
+          <td mat-cell *matCellDef="let seller">
+            <div
+              class="grayBg"
+              [ngClass]="{ 'disabled-button': seller.entityStatus == 1 }"
+            >
+              <b>{{ formatCreatedTime(seller.createdTime) }}</b>
+            </div>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="address">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            sortActionDescription="Sort by address"
+          >
+            Şubeler
+          </th>
+          <td mat-cell *matCellDef="let seller">
+            <button mat-button>Şubeleri Görüntüle</button>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="operations">
+          <th mat-header-cell *matHeaderCellDef>Operasyonlar</th>
+          <td mat-cell *matCellDef="let seller">
+            <div style="display: flex; flex-direction: row">
+              <button
+                matTooltip="Satıcıyı Sil"
+                [matTooltipDisabled]="seller.entityStatus == 1"
+                [disabled]="seller.entityStatus == 1"
+                [ngClass]="{
+                  'disabled-button': seller.entityStatus == 1
+                }"
+              >
+                <mat-icon color="warn">delete</mat-icon>
+              </button>
+              <button
+                matTooltip="Satıcıyı Aktif Et"
+                [matTooltipDisabled]="seller.entityStatus == 0"
+                [disabled]="seller.entityStatus == 0"
+                [ngClass]="{
+                  'disabled-button': seller.entityStatus == 0
+                }"
+              >
+                <mat-icon style="color: rgb(34 197 94)">check</mat-icon>
+              </button>
+            </div>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="entityStatus">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            sortActionDescription="Sort by entityStatus"
+          >
+            Satıcı Aktiflik Durumu
+          </th>
+          <td mat-cell *matCellDef="let seller">
+            <div
+              class="status"
+              [style.color]="getColor(seller.entityStatus)"
+              [style.background-color]="getBg(seller.entityStatus)"
+            >
+              {{ mapEntityStatus(seller.entityStatus) }}
+            </div>
+          </td>
+        </ng-container>
+        <tr
+          mat-header-row
+          *matHeaderRowDef="[
+            'taxId',
+            'sellerName',
+            'createdTime',
+            'address',
+            'operations',
+            'entityStatus'
+          ]"
+        ></tr>
+        <tr
+          mat-row
+          *matRowDef="
+            let row;
+            columns: [
+              'taxId',
+              'sellerName',
+              'createdTime',
+              'address',
+              'operations',
+              'entityStatus'
+            ]
+          "
+        ></tr>
+      </table>
+    </mat-card-content>
+    <mat-card-footer
+      ><mat-paginator
+        #paginator
+        [pageSizeOptions]="[25, 50, 75, 100]"
+        showFirstLastButtons
+      >
+      </mat-paginator
+    ></mat-card-footer>
+  </mat-card>
+</app-routes-container>
