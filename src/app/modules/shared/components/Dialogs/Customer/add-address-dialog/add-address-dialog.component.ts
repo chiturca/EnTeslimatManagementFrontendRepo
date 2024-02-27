@@ -21,7 +21,7 @@ import { AddDeliveryAddressToExistCustomerForManagementDto } from 'src/app/modul
 export class AddAddressDialogComponent implements OnInit {
   isLoading = true;
   addAddressForm!: FormGroup;
-  getUserFromAuthByDtoModel: GetUserByRefreshTokenResponseDtoModel;
+  getUserFromAuthByDtoModel!: GetUserByRefreshTokenResponseDtoModel;
   cities: City[] = [];
   districts: District[] = [];
   neighbourhoods: Neighbourhood[] = [];
@@ -65,6 +65,7 @@ export class AddAddressDialogComponent implements OnInit {
     this.userService.getUserFromAuthByDto().subscribe((response) => {
       this.getUserFromAuthByDtoModel = response.data;
       this.isLoading = false;
+      console.log(this.getUserFromAuthByDtoModel);
     });
   }
   initializeForm(): void {
@@ -85,8 +86,8 @@ export class AddAddressDialogComponent implements OnInit {
           districtKey: this.addAddressForm.get('district')?.value,
           neighbourhoodKey: this.addAddressForm.get('neighbourhood')?.value,
           address: this.addAddressForm.get('address')?.value,
-          sellerId: this.getUserFromAuthByDtoModel.sellerId,
-          sellerAddressId: this.getUserFromAuthByDtoModel.sellerAddressId,
+          sellerId: this.data.customer.sellerId,
+          sellerAddressId: this.data.customer.sellerAddressId,
           createdById: this.getUserFromAuthByDtoModel.userId,
           //sellerId and sellerAddressId needs to come from somewhere else user is not the key
           //createdById comes as 0 in admin user

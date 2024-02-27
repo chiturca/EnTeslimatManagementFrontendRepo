@@ -122,6 +122,7 @@ export class CustomerComponent implements OnInit, AfterViewInit {
         // console.log(response);
         this.dataSource.data = response.data.reverse();
         this.isLoaded = response.success;
+        console.log(this.dataSource.data);
         this.changeDetectorRef.detectChanges();
       },
       error: (httpErrorResponse) => {

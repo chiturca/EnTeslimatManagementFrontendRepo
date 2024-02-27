@@ -9,5 +9,7 @@ export interface GetAllCustomersForManagementResponseDto {
   deliveryAddresses: DeliveryAddressDtoVersion2[];
   sellerName: string;
   sellerAddressName: string;
+  sellerAddressId:number,
+  sellerId:number,
   entityStatus: EntityStatuses;
 }
