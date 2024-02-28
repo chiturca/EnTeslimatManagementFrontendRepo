@@ -12,6 +12,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { CookieService } from 'ngx-cookie-service';
 import { JwtModule } from '@auth0/angular-jwt';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -27,6 +31,10 @@ export function tokenGetter() {
     ReactiveFormsModule,
     BrowserAnimationsModule,
     BrowserModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    MatButtonModule,
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right',
     }),

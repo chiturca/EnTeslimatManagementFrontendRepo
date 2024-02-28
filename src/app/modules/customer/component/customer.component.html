@@ -79,35 +79,7 @@
           </td>
         </ng-container>
         <!-- actions -->
-        <ng-container matColumnDef="operations">
-          <th mat-header-cell *matHeaderCellDef>Operasyonlar</th>
-          <td mat-cell *matCellDef="let customer">
-            <div style="display: flex; flex-direction: row">
-              <button
-                matTooltip="Müşteriyi Sil"
-                [matTooltipDisabled]="customer.entityStatus == 1"
-                (click)="deleteCustomer(customer.id)"
-                [disabled]="customer.entityStatus == 1"
-                [ngClass]="{
-                  'disabled-button': customer.entityStatus == 1
-                }"
-              >
-                <mat-icon color="warn">delete</mat-icon>
-              </button>
-              <button
-                matTooltip="Müşteriyi Aktif Et"
-                [matTooltipDisabled]="customer.entityStatus == 0"
-                (click)="activateCustomer(customer.id)"
-                [disabled]="customer.entityStatus == 0"
-                [ngClass]="{
-                  'disabled-button': customer.entityStatus == 0
-                }"
-              >
-                <mat-icon style="color: rgb(34 197 94)">check</mat-icon>
-              </button>
-            </div>
-          </td>
-        </ng-container>
+        
         <ng-container matColumnDef="entityStatus">
           <th
             mat-header-cell
@@ -134,7 +106,6 @@
             'customerDeliveryAddress',
             'sellerName',
             'sellerDealer',
-            'operations',
             'entityStatus'
           ]"
         ></tr>
@@ -147,7 +118,6 @@
               'customerDeliveryAddress',
               'sellerName',
               'sellerDealer',
-              'operations',
               'entityStatus'
             ]
           "

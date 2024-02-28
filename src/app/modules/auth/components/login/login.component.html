@@ -1,20 +1,24 @@
-<div class="login-container">
+<div class="split-screen-container">
+  <div class="left-side">
+    </div>
+  <div class="right-side">
     <mat-card>
       <mat-card-header>
         <mat-card-title>Giriş Yap</mat-card-title>
       </mat-card-header>
       <mat-card-content>
         <form [formGroup]="loginForm" (ngSubmit)="login()">
-          <div class="form-group">
-            <label for="email">Kullanıcı Adı:</label>
-            <input type="text" formControlName="email" class="form-control" placeholder="Kullanıcı adınızı girin">
-          </div>
-          <div class="form-group">
-            <label for="password">Şifre:</label>
-            <input type="password" formControlName="password" class="form-control" placeholder="Şifrenizi girin">
-          </div>
-          <button type="submit" class="btn login-btn">Giriş Yap</button>
+          <mat-form-field>
+            <mat-label for="email">Kullanıcı Adı:</mat-label>
+            <input matInput type="email" formControlName="email" placeholder="Kullanıcı adınızı girin">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label for="password">Şifre:</mat-label>
+            <input matInput type="password" formControlName="password" placeholder="Şifrenizi girin">
+          </mat-form-field>
+          <button mat-button type="submit" class="btn login-btn">Giriş Yap</button>
         </form>
       </mat-card-content>
     </mat-card>
   </div>
+</div>
