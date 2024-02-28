@@ -15,6 +15,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { SharedRoutingModule } from './shared-routing.module';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ResponsiveToolbarComponent } from './components/responsive-toolbar/responsive-toolbar.component';
 import { ResponsiveSidenavComponent } from './components/responsive-sidenav/responsive-sidenav.component';
 import { ConfirmationDialogComponent } from './components/Dialogs/confirmation-dialog/confirmation-dialog.component';
@@ -24,7 +26,7 @@ import { UpdateAddressDialogComponent } from './components/Dialogs/Customer/upda
 import { SellerAddressesDialogComponent } from './components/Dialogs/Seller/seller-addresses-dialog/seller-addresses-dialog.component';
 import { AddSellerAddressComponent } from './components/Dialogs/Seller/add-seller-address/add-seller-address.component';
 import { UpdateSellerAddressComponent } from './components/Dialogs/Seller/update-seller-address/update-seller-address.component';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { PackageDetailsDialogComponent } from './components/Dialogs/Package/package-details-dialog/package-details-dialog.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +39,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     SellerAddressesDialogComponent,
     AddSellerAddressComponent,
     UpdateSellerAddressComponent,
+    PackageDetailsDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -57,6 +60,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatSelectModule,
     MatInputModule,
     MatTooltipModule,
+    MatProgressSpinnerModule,
   ],
   exports: [
     ResponsiveToolbarComponent,
