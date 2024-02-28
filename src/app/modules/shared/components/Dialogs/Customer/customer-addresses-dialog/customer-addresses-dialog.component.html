@@ -31,21 +31,9 @@
         </td>
       </ng-container>
 
-      
-
-      
-
       <!-- Table rows -->
-      <tr
-        mat-header-row
-        *matHeaderRowDef="['address']"
-      ></tr>
-      <tr
-        mat-row
-        *matRowDef="let row; columns: ['address']"
-      ></tr>
+      <tr mat-header-row *matHeaderRowDef="['address']"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['address']"></tr>
     </table>
-
-    
   </mat-dialog-content>
 </div>
