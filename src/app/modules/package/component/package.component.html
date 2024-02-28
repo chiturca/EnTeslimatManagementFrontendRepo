@@ -5,12 +5,22 @@
         <h2 style="margin-right: 1.25rem">Paketler</h2>
         <mat-form-field appearance="fill">
           <mat-icon matPrefix>search</mat-icon>
-          <input matInput placeholder="Paketleri Ara" />
+          <input
+            matInput
+            placeholder="Paketleri Ara"
+            [formControl]="searchInputControl"
+          />
         </mat-form-field>
       </div>
     </mat-card-header>
     <mat-card-content>
-      <table mat-table class="mat-elevation-z8 transparent-table">
+      <table
+        mat-table
+        matSort
+        (matSortChange)="announceSortChange($event)"
+        [dataSource]="dataSource"
+        class="mat-elevation-z8 transparent-table"
+      >
         <ng-container matColumnDef="packageBarcode">
           <th mat-header-cell *matHeaderCellDef>Paket Barkodu</th>
           <td mat-cell *matCellDef="let package">
@@ -31,39 +41,69 @@
         </ng-container>
         <ng-container matColumnDef="sellerName">
           <th mat-header-cell *matHeaderCellDef>Satıcı Adı</th>
-          <td mat-cell *matCellDef="let package"></td>
+          <td mat-cell *matCellDef="let package">
+            <div class="grayBg">{{ package.sellerName }}</div>
+          </td>
         </ng-container>
         <ng-container matColumnDef="sellerAddressName">
           <th mat-header-cell *matHeaderCellDef>Satıcı Adresi</th>
           <td mat-cell *matCellDef="let package">
-            <div class="grayBg"></div>
+            <div class="grayBg">{{ package.sellerAddressName }}</div>
           </td>
         </ng-container>
         <ng-container matColumnDef="customerName">
           <th mat-header-cell *matHeaderCellDef>Müşteri İsmi</th>
-          <td mat-cell *matCellDef="let package"></td>
+          <td mat-cell *matCellDef="let package">
+            <div class="grayBg">{{ package.customerName }}</div>
+          </td>
         </ng-container>
         <ng-container matColumnDef="desi">
           <th mat-header-cell *matHeaderCellDef>Desi</th>
           <td mat-cell *matCellDef="let package">
-            <div class="grayBg"></div>
+            <div class="grayBg">{{ package.desi || "Belirtilmemiş" }}</div>
           </td>
         </ng-container>
         <ng-container matColumnDef="weight">
           <th mat-header-cell *matHeaderCellDef>Ağırlık</th>
-          <td mat-cell *matCellDef="let package"></td>
+          <td mat-cell *matCellDef="let package">
+            <div class="grayBg">{{ package.weight || "Belirtilmemiş" }}</div>
+          </td>
         </ng-container>
         <ng-container matColumnDef="price">
           <th mat-header-cell *matHeaderCellDef>Fiyat</th>
-          <td mat-cell *matCellDef="let package"></td>
+          <td mat-cell *matCellDef="let package">
+            <div class="grayBg">{{ package.price || "Belirtilmemiş" }}</div>
+          </td>
         </ng-container>
-        <ng-container matColumnDef="deliveryStatus">
+        <ng-container matColumnDef="deliveryStatusType">
           <th mat-header-cell *matHeaderCellDef>Teslimat Durumu</th>
-          <td mat-cell *matCellDef="let package"></td>
+          <td mat-cell *matCellDef="let package">
+            <div
+              class="status"
+              [style.color]="
+                getDeliveryStatusEnumColor(package.deliveryStatusType)
+              "
+              [style.background-color]="
+                getDeliveryStatusEnumBg(package.deliveryStatusType)
+              "
+            >
+              {{
+                mapDeliveryStatusEnumToDisplayName(package.deliveryStatusType)
+              }}
+            </div>
+          </td>
         </ng-container>
         <ng-container matColumnDef="entityStatus">
           <th mat-header-cell *matHeaderCellDef>Paket Aktiflik Durumu</th>
-          <td mat-cell *matCellDef="let package"></td>
+          <td mat-cell *matCellDef="let package">
+            <div
+              class="status"
+              [style.color]="getColor(package.entityStatus)"
+              [style.background-color]="getBg(package.entityStatus)"
+            >
+              {{ mapEntityStatus(package.entityStatus) }}
+            </div>
+          </td>
         </ng-container>
         <tr
           mat-header-row
@@ -75,7 +115,7 @@
             'desi',
             'weight',
             'price',
-            'deliveryStatus',
+            'deliveryStatusType',
             'entityStatus'
           ]"
         ></tr>
@@ -91,7 +131,7 @@
               'desi',
               'weight',
               'price',
-              'deliveryStatus',
+              'deliveryStatusType',
               'entityStatus'
             ]
           "
