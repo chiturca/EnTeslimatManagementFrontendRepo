@@ -31,7 +31,10 @@
                     <b>{{ package.packageBarcode }}</b>
                   </mat-panel-title>
                 </mat-expansion-panel-header>
-                <button style="display: flex; align-items: center">
+                <button
+                  (click)="openPackageDetails(package.packageId)"
+                  style="display: flex; align-items: center"
+                >
                   <mat-icon>list</mat-icon>
                   Paket Detay Görüntüle
                 </button>

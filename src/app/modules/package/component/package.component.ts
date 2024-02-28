@@ -20,6 +20,7 @@ import { GetAllPackagesForManagementResponseDto } from '../models/get-all-packag
 import { GetUserByRefreshTokenResponseDtoModel } from '../../user/models/response/get-user-by-refresh-token-response-dto-model';
 import { EntityStatuses } from '../../customer/models/enums/entity-statuses';
 import { DeliveryStatusEnum } from '../models/enums/delivery-status-enum';
+import { PackageDetailsDialogComponent } from '../../shared/components/Dialogs/Package/package-details-dialog/package-details-dialog.component';
 
 @Component({
   selector: 'app-package',
@@ -115,7 +116,6 @@ export class PackageComponent implements OnInit, AfterViewInit {
   getAllPackagesForManagement(): void {
     this.packageService.getAllPackagesForManagement().subscribe({
       next: (response) => {
-        console.log(response);
         this.dataSource.data = response.data.reverse();
         this.isLoaded = response.success;
         this.changeDetectorRef.detectChanges();
@@ -125,7 +125,12 @@ export class PackageComponent implements OnInit, AfterViewInit {
       },
     });
   }
-
+  openPackageDetails(packageId: number) {
+    const dialogRef = this.dialog.open(PackageDetailsDialogComponent, {
+      maxWidth: '50em',
+      data: packageId,
+    });
+  }
   mapDeliveryStatusEnumToDisplayName(status: DeliveryStatusEnum): string {
     switch (status) {
       case DeliveryStatusEnum.ReadyToCollection:
