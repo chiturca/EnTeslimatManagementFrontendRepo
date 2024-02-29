@@ -1,1 +1,129 @@
-<app-routes-container><p>seller-batch works!</p></app-routes-container>
+<app-routes-container>
+  <mat-card style="width: 100%">
+    <mat-card-header>
+      <div class="header-container">
+        <h2 style="margin-right: 1.25rem">Batchler</h2>
+        <div class="addSearchHolder">
+          <mat-form-field appearance="fill">
+            <mat-icon matPrefix>search</mat-icon>
+            <input
+              matInput
+              placeholder="Batchleri Ara"
+              [formControl]="searchInputControl"
+            />
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-card-header>
+    <mat-card-content>
+      <table
+        mat-table
+        matSort
+        (matSortChange)="announceSortChange($event)"
+        [dataSource]="dataSource"
+        class="mat-elevation-z8 transparent-table"
+      >
+        <ng-container matColumnDef="batchBarcode">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            sortActionDescription="Sort by batchBarcode"
+          >
+            Batch Barkodu
+          </th>
+          <td mat-cell *matCellDef="let batch"></td>
+        </ng-container>
+        <ng-container matColumnDef="sellerName">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            sortActionDescription="Sort by sellerName"
+          >
+            Satıcı
+          </th>
+          <td mat-cell *matCellDef="let batch"></td>
+        </ng-container>
+        <ng-container matColumnDef="warehouseName">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            sortActionDescription="Sort by warehouseName"
+          >
+            Teslim Alınan Depo
+          </th>
+          <td mat-cell *matCellDef="let batch"></td>
+        </ng-container>
+        <ng-container matColumnDef="city">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            sortActionDescription="Sort by city"
+          >
+            İli
+          </th>
+          <td mat-cell *matCellDef="let batch"></td>
+        </ng-container>
+        <ng-container matColumnDef="batchStatus">
+          <th mat-header-cell *matHeaderCellDef>Durum</th>
+          <td mat-cell *matCellDef="let batch"></td>
+        </ng-container>
+        <ng-container matColumnDef="entityStatus">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            sortActionDescription="Sort by entityStatus"
+          >
+            Batch Aktiflik Durumu
+          </th>
+          <td mat-cell *matCellDef="let batch">
+            <div
+              class="status"
+              [style.color]="getColor(batch.entityStatus)"
+              [style.background-color]="getBg(batch.entityStatus)"
+            >
+              {{ mapEntityStatus(batch.entityStatus) }}
+            </div>
+          </td>
+        </ng-container>
+        <tr
+          mat-header-row
+          *matHeaderRowDef="[
+            'batchBarcode',
+            'sellerName',
+            'warehouseName',
+            'city',
+            'batchStatus',
+            'entityStatus'
+          ]"
+        ></tr>
+        <tr
+          mat-row
+          *matRowDef="
+            let row;
+            columns: [
+              'batchBarcode',
+              'sellerName',
+              'warehouseName',
+              'city',
+              'batchStatus',
+              'entityStatus'
+            ]
+          "
+        ></tr>
+      </table>
+    </mat-card-content>
+    <mat-card-footer
+      ><mat-paginator
+        #paginator
+        [pageSizeOptions]="[25, 50, 75, 100]"
+        showFirstLastButtons
+      >
+      </mat-paginator
+    ></mat-card-footer>
+  </mat-card>
+</app-routes-container>

@@ -200,7 +200,7 @@ export class SellerComponent implements OnInit, AfterViewInit {
       case EntityStatuses.inactive:
         return 'Pasif Satıcı';
       default:
-        return 'Bilinmeyen Paket Tipi';
+        return 'Bilinmeyen Satıcı Tipi';
     }
   }
   getColor(type: EntityStatuses): string {
@@ -210,7 +210,7 @@ export class SellerComponent implements OnInit, AfterViewInit {
       case EntityStatuses.inactive:
         return 'red';
       default:
-        return 'Bilinmeyen Paket Tipi';
+        return 'Bilinmeyen Satıcı Tipi';
     }
   }
   getBg(type: EntityStatuses): string {
@@ -220,7 +220,7 @@ export class SellerComponent implements OnInit, AfterViewInit {
       case EntityStatuses.inactive:
         return 'rgba(255, 0, 0, 0.2)';
       default:
-        return 'Bilinmeyen Paket Tipi';
+        return 'Bilinmeyen Satıcı Tipi';
     }
   }
 }
