@@ -8,6 +8,7 @@
             matTooltip="Yeni Müşteri Ekle"
             style="margin: 0 1.5rem"
             aria-label="Müşteri ekle"
+            (click)="openCreateSellerDialog()"
           >
             <mat-icon class="addBtn">control_point</mat-icon>
           </button>
@@ -94,7 +95,12 @@
             Şubeler
           </th>
           <td mat-cell *matCellDef="let seller">
-            <button mat-button (click)="openAddressesDialog(seller)">
+            <button
+              mat-button
+              [disabled]="seller.entityStatus == 1"
+              [ngClass]="{ 'disabled-button': seller.entityStatus == 1 }"
+              (click)="openAddressesDialog(seller)"
+            >
               Şubeleri Görüntüle
             </button>
           </td>

@@ -22,6 +22,7 @@ import { GetUserByRefreshTokenResponseDtoModel } from '../../user/models/respons
 import { EntityStatuses } from '../../customer/models/enums/entity-statuses';
 import { GetAllSellerAddressesResponseDto } from '../../shared/models/get-all-seller-addresses-response-dto';
 import { SellerAddressesDialogComponent } from '../../shared/components/Dialogs/Seller/seller-addresses-dialog/seller-addresses-dialog.component';
+import { CreateSellerDialogComponent } from '../../shared/components/Dialogs/Seller/create-seller-dialog/create-seller-dialog.component';
 
 @Component({
   selector: 'app-seller',
@@ -125,6 +126,11 @@ export class SellerComponent implements OnInit, AfterViewInit {
       error: (httpErrorResponse) => {
         this.toastrService.error(httpErrorResponse.error.message);
       },
+    });
+  }
+  openCreateSellerDialog(): void {
+    const dialogRef = this.dialog.open(CreateSellerDialogComponent, {
+      maxWidth: '50em',
     });
   }
   openAddressesDialog(seller: GetAllSellerResponseDto): void {

@@ -1,0 +1,30 @@
+<div>
+  <h2 mat-dialog-title>Yeni Satıcı Ekle</h2>
+  <mat-dialog-content class="mat-typography">
+    <form [formGroup]="createSellerForm">
+      <mat-form-field appearance="fill" style="width: 100%">
+        <mat-label>İsim</mat-label>
+        <input matInput formControlName="name" />
+      </mat-form-field>
+      <mat-form-field appearance="fill" style="width: 100%">
+        <mat-label>Vergi Numarası</mat-label>
+        <input matInput formControlName="taxId" />
+      </mat-form-field>
+      <mat-form-field appearance="fill" style="width: 100%">
+        <mat-label>Şirket Türleri</mat-label>
+        <mat-select formControlName="sellerCompanyType">
+          <mat-option
+            *ngFor="let type of sellerCompanyTypes"
+            [value]="type.value"
+          >
+            {{ type.label }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button (click)="createSeller()">Ekle</button>
+    <button mat-button (click)="cancel()">İptal</button>
+  </mat-dialog-actions>
+</div>

@@ -59,7 +59,7 @@ export class AddSellerAddressComponent implements OnInit {
   ngOnInit(): void {
     this.getUserFromAuthByDto();
     this.initializeForm();
-    console.log(this.data);
+    // console.log(this.data);
   }
   getUserFromAuthByDto() {
     this.userService.getUserFromAuthByDto().subscribe((response) => {
