@@ -43,8 +43,16 @@
         </ng-container>
         <ng-container matColumnDef="customerDeliveryAddress">
           <th mat-header-cell *matHeaderCellDef>Müşteri Teslimat Adresi</th>
-          <td mat-cell *matCellDef="let customer">
-            <button mat-button (click)="openCustomerAddressesDialog(customer)">
+          <td
+            mat-cell
+            [ngClass]="{ 'disabled-button': customer.entityStatus == 1 }"
+            *matCellDef="let customer"
+          >
+            <button
+              mat-button
+              [disabled]="customer.entityStatus == 1"
+              (click)="openCustomerAddressesDialog(customer)"
+            >
               Müşteri Teslimat Adresleri
             </button>
           </td>
