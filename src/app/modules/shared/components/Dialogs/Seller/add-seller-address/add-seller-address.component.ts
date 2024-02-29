@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
@@ -19,6 +19,7 @@ import { AddSellerAddressToSellerRequestDto } from 'src/app/modules/shared/model
   styleUrls: ['./add-seller-address.component.css'],
 })
 export class AddSellerAddressComponent implements OnInit {
+  @Output() addressAdded: EventEmitter<void> = new EventEmitter<void>();
   isLoading = true;
   addAddressForm!: FormGroup;
   getUserFromAuthByDtoModel: GetUserByRefreshTokenResponseDtoModel;
@@ -93,6 +94,7 @@ export class AddSellerAddressComponent implements OnInit {
             this.toastrService.success(
               response.message || 'Adres başarıyla eklendi.'
             );
+            this.addressAdded.emit();
             this.dialogRef.close();
           },
           error: (error) => {

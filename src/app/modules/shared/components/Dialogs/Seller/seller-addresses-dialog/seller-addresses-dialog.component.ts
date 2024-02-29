@@ -67,6 +67,7 @@ export class SellerAddressesDialogComponent implements OnInit {
             this.toastrService.success(
               response.message || 'Adres başarıyla aktifleştirildi'
             );
+            this.getAllSellerAddressesBySellerId();
           },
           error: (httpErrorResponse) => {
             this.toastrService.error(httpErrorResponse.error.message);
@@ -90,6 +91,7 @@ export class SellerAddressesDialogComponent implements OnInit {
             this.toastrService.success(
               response.message || 'Adres başarıyla silindi'
             );
+            this.getAllSellerAddressesBySellerId();
           },
           error: (httpErrorResponse) => {
             this.toastrService.error(httpErrorResponse.error.message);
@@ -102,6 +104,9 @@ export class SellerAddressesDialogComponent implements OnInit {
     const dialogRef = this.dialog.open(AddSellerAddressComponent, {
       maxWidth: '50em',
       data: this.data,
+    });
+    dialogRef.componentInstance.addressAdded.subscribe(() => {
+      this.getAllSellerAddressesBySellerId();
     });
   }
   updateSellerAddressById(address: DeliveryAddressDtoVersion2): void {
@@ -125,6 +130,7 @@ export class SellerAddressesDialogComponent implements OnInit {
               if (response.success) {
                 this.getAllSellerAddresses[index] = newAddress;
                 this.toastrService.success('Adres başarıyla güncellendi.');
+                this.getAllSellerAddressesBySellerId();
               } else {
                 this.toastrService.error(response.message) ||
                   'Adres güncellenirken bir hata oluştu.';
