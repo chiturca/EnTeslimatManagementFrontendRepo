@@ -23,6 +23,7 @@ import { EntityStatuses } from '../../customer/models/enums/entity-statuses';
 import { GetAllSellerAddressesResponseDto } from '../../shared/models/get-all-seller-addresses-response-dto';
 import { SellerAddressesDialogComponent } from '../../shared/components/Dialogs/Seller/seller-addresses-dialog/seller-addresses-dialog.component';
 import { CreateSellerDialogComponent } from '../../shared/components/Dialogs/Seller/create-seller-dialog/create-seller-dialog.component';
+import { ConfirmationDialogComponent } from '../../shared/components/Dialogs/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-seller',
@@ -141,6 +142,51 @@ export class SellerComponent implements OnInit, AfterViewInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.getAll();
+      }
+    });
+  }
+  activateSellerBySellerId(sellerId: number): void {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      maxWidth: '50em',
+      data: {
+        title: 'Emin Misiniz?',
+        content: 'Bu satıcıyı aktifleştirmek istediğinizden emin misiniz?',
+      },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.sellerService.activateSellerBySellerId(sellerId).subscribe({
+          next: (response) => {
+            this.toastrService.success(response.message);
+            this.getAll();
+          },
+          error: (httpErrorResponse) => {
+            this.toastrService.error(httpErrorResponse.error.message);
+          },
+        });
+      }
+    });
+  }
+  inactivateSellerBySellerId(sellerId: number): void {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      maxWidth: '50em',
+      data: {
+        title: 'Emin Misiniz?',
+        content: 'Bu satıcıyı silmek istediğinizden emin misiniz?',
+      },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(result);
+      if (result) {
+        this.sellerService.inactivateSellerBySellerId(sellerId).subscribe({
+          next: (response) => {
+            this.toastrService.success(response.message);
+            this.getAll();
+          },
+          error: (httpErrorResponse) => {
+            this.toastrService.error(httpErrorResponse.error.message);
+          },
+        });
       }
     });
   }

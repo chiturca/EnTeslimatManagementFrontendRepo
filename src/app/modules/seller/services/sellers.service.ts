@@ -27,4 +27,16 @@ export class SellersService {
       createSellerRequestDto
     );
   }
+  activateSellerBySellerId(sellerId: number): Observable<ResponseModel> {
+    return this.httpClient.put<ResponseModel>(
+      `${this.baseApiUrl}activateSellerBySellerId?sellerId=${sellerId}`,
+      null
+    );
+  }
+  inactivateSellerBySellerId(sellerId: number): Observable<ResponseModel> {
+    return this.httpClient.put<ResponseModel>(
+      `${this.baseApiUrl}inactivateSellerBySellerId?sellerId=${sellerId}`,
+      null
+    );
+  }
 }

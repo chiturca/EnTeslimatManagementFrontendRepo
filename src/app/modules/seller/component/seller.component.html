@@ -116,6 +116,7 @@
                 [ngClass]="{
                   'disabled-button': seller.entityStatus == 1
                 }"
+                (click)="inactivateSellerBySellerId(seller.id)"
               >
                 <mat-icon color="warn">delete</mat-icon>
               </button>
@@ -126,6 +127,7 @@
                 [ngClass]="{
                   'disabled-button': seller.entityStatus == 0
                 }"
+                (click)="activateSellerBySellerId(seller.id)"
               >
                 <mat-icon style="color: rgb(34 197 94)">check</mat-icon>
               </button>
