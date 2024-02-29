@@ -2,8 +2,10 @@
 <mat-dialog-content>
   <mat-list>
     <mat-list-item
-      ><strong [ngStyle]="{ color: '#3f51b5' }"> Teslimat Türü:</strong>
-      {{ packageDetails.deliveryType || "Belirtilmemiş" }}</mat-list-item
+      ><strong [ngStyle]="{ color: '#3f51b5' }"> Teslimat Türü: </strong>
+      <b>{{
+        mapDeliveryTypeEnumToDisplayName(packageDetails.deliveryType)
+      }}</b></mat-list-item
     >
     <mat-list-item
       ><strong [ngStyle]="{ color: '#3f51b5' }">Depo Adresi Adı:</strong>
@@ -15,9 +17,14 @@
       ><strong [ngStyle]="{ color: '#3f51b5' }">Atanan Kurye Tam Adı:</strong>
       {{ packageDetails.assignedCarrierFullName || "Belirtilmemiş" }}
     </mat-list-item>
+    <br />
     <mat-list-item
-      ><strong [ngStyle]="{ color: '#3f51b5' }"> Teslim Alan Kişi Tipi:</strong>
-      {{ packageDetails.receiverType || "Belirtilmemiş" }}</mat-list-item
+      ><strong [ngStyle]="{ color: '#3f51b5' }">
+        Teslim Alan Kişi Tipi:
+      </strong>
+      <b>{{
+        mapReceiverTypeEnumToDisplayName(packageDetails.receiverType)
+      }}</b></mat-list-item
     >
     <mat-list-item
       ><strong [ngStyle]="{ color: '#3f51b5' }"> Teslim Alan Kişi Adı:</strong>

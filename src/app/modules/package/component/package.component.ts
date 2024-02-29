@@ -167,7 +167,6 @@ export class PackageComponent implements OnInit, AfterViewInit {
         return '#f3f4f6';
     }
   }
-
   getDeliveryStatusEnumColor(status: DeliveryStatusEnum): string {
     switch (status) {
       case DeliveryStatusEnum.ReadyToCollection:
@@ -189,9 +188,9 @@ export class PackageComponent implements OnInit, AfterViewInit {
   mapEntityStatus(type: EntityStatuses): string {
     switch (type) {
       case EntityStatuses.active:
-        return 'Aktif Müşteri';
+        return 'Aktif Paket';
       case EntityStatuses.inactive:
-        return 'Pasif Müşteri';
+        return 'Silinmiş Paket';
       default:
         return 'Bilinmeyen Paket Tipi';
     }

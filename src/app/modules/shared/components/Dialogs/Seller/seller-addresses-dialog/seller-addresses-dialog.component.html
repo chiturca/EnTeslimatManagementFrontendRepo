@@ -74,6 +74,10 @@
             tabindex="-1"
             color="primary"
             (click)="updateSellerAddressById(element)"
+            [disabled]="element.entityStatus == 1"
+            [ngClass]="{
+              'disabled-button': element.entityStatus == 1
+            }"
           >
             <mat-icon>edit</mat-icon>
           </button>

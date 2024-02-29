@@ -21,7 +21,7 @@ export class PackageDetailsDialogComponent implements OnInit {
     deliveryType: DeliveryTypeEnum.Standart,
     warehouseAddressName: '',
     assignedCarrierFullName: '',
-    receiverType: ReceiverTypeEnum.Itself,
+    receiverType: ReceiverTypeEnum.NotDetermined,
     receiverFullName: '',
   };
   constructor(
@@ -48,12 +48,38 @@ export class PackageDetailsDialogComponent implements OnInit {
       .getPackageDetailsForManagementByPackageId(this.data)
       .subscribe({
         next: (response) => {
-          this.packageDetails = response;
+          this.packageDetails = response.data;
           this.isLoaded = false;
         },
         error: (httpErrorResponse) => {
           this.toastrService.error(httpErrorResponse.error.message);
         },
       });
+  }
+  mapDeliveryTypeEnumToDisplayName(status: DeliveryTypeEnum): string {
+    switch (status) {
+      case DeliveryTypeEnum.Standart:
+        return 'Standart';
+      case DeliveryTypeEnum.Urgent:
+        return 'Acil';
+      case DeliveryTypeEnum.Heavy:
+        return 'Ağır';
+      default:
+        return 'Bilinmeyen Durum';
+    }
+  }
+  mapReceiverTypeEnumToDisplayName(status: ReceiverTypeEnum): string {
+    switch (status) {
+      case ReceiverTypeEnum.NotDetermined:
+        return 'Belirlenmedi';
+      case ReceiverTypeEnum.Itself:
+        return 'Kendisi';
+      case ReceiverTypeEnum.Neighbor:
+        return 'Komşusu';
+      case ReceiverTypeEnum.FirstDegreeRelative:
+        return 'Birinci Derece Akrabası';
+      default:
+        return 'Bilinmeyen Durum';
+    }
   }
 }
