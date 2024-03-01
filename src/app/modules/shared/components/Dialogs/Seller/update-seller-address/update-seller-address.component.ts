@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
@@ -21,6 +21,7 @@ import { UpdateAddressDialogComponent } from '../../Customer/update-address-dial
   styleUrls: ['./update-seller-address.component.css'],
 })
 export class UpdateSellerAddressComponent implements OnInit {
+  @Output() addressUpdated: EventEmitter<void> = new EventEmitter<void>();
   isLoading = true;
   updateForm!: FormGroup;
   getUserFromAuthByDtoModel: GetUserByRefreshTokenResponseDtoModel;
@@ -61,7 +62,6 @@ export class UpdateSellerAddressComponent implements OnInit {
   ngOnInit(): void {
     this.getUserFromAuthByDto();
     this.initializeForm();
-    console.log(this.data);
   }
   getUserFromAuthByDto() {
     this.userService.getUserFromAuthByDto().subscribe((response) => {
@@ -97,6 +97,7 @@ export class UpdateSellerAddressComponent implements OnInit {
         .subscribe({
           next: () => {
             this.toastrService.success('Adres başarıyla güncellendi.');
+            this.addressUpdated.emit();
             this.dialogRef.close();
           },
           error: (error) => {

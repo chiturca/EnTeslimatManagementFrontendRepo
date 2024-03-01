@@ -20,7 +20,6 @@ import { UserService } from '../../user/services/user.service';
 import { GetAllSellerResponseDto } from '../models/get-all-seller-response-dto';
 import { GetUserByRefreshTokenResponseDtoModel } from '../../user/models/response/get-user-by-refresh-token-response-dto-model';
 import { EntityStatuses } from '../../customer/models/enums/entity-statuses';
-import { GetAllSellerAddressesResponseDto } from '../../shared/models/get-all-seller-addresses-response-dto';
 import { SellerAddressesDialogComponent } from '../../shared/components/Dialogs/Seller/seller-addresses-dialog/seller-addresses-dialog.component';
 import { CreateSellerDialogComponent } from '../../shared/components/Dialogs/Seller/create-seller-dialog/create-seller-dialog.component';
 import { ConfirmationDialogComponent } from '../../shared/components/Dialogs/confirmation-dialog/confirmation-dialog.component';
@@ -52,7 +51,7 @@ export class SellerComponent implements OnInit, AfterViewInit {
       {} as GetUserByRefreshTokenResponseDtoModel;
   }
   ngOnInit(): void {
-    // this.getUserFromAuthByDto();
+    this.getUserFromAuthByDto();
     this.getAll();
     this.setupFilter();
   }
@@ -176,17 +175,21 @@ export class SellerComponent implements OnInit, AfterViewInit {
       },
     });
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(result);
       if (result) {
-        this.sellerService.inactivateSellerBySellerId(sellerId).subscribe({
-          next: (response) => {
-            this.toastrService.success(response.message);
-            this.getAll();
-          },
-          error: (httpErrorResponse) => {
-            this.toastrService.error(httpErrorResponse.error.message);
-          },
-        });
+        this.sellerService
+          .inactivateSellerBySellerId(
+            sellerId,
+            this.getUserFromAuthByDtoModel.userId
+          )
+          .subscribe({
+            next: (response) => {
+              this.toastrService.success(response.message);
+              this.getAll();
+            },
+            error: (httpErrorResponse) => {
+              this.toastrService.error(httpErrorResponse.error.message);
+            },
+          });
       }
     });
   }

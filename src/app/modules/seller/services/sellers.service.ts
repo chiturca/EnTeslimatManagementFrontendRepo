@@ -33,9 +33,12 @@ export class SellersService {
       null
     );
   }
-  inactivateSellerBySellerId(sellerId: number): Observable<ResponseModel> {
+  inactivateSellerBySellerId(
+    sellerId: number,
+    deletedById: number
+  ): Observable<ResponseModel> {
     return this.httpClient.put<ResponseModel>(
-      `${this.baseApiUrl}inactivateSellerBySellerId?sellerId=${sellerId}`,
+      `${this.baseApiUrl}inactivateSellerBySellerId?sellerId=${sellerId}&deletedById=${deletedById}`,
       null
     );
   }

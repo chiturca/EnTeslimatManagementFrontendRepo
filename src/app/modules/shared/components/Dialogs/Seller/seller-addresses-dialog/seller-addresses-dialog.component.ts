@@ -7,7 +7,6 @@ import { GetAllSellerAddressesResponseDto } from 'src/app/modules/shared/models/
 import { GetUserByRefreshTokenResponseDtoModel } from 'src/app/modules/user/models/response/get-user-by-refresh-token-response-dto-model';
 import { ConfirmationDialogComponent } from '../../confirmation-dialog/confirmation-dialog.component';
 import { AddSellerAddressComponent } from '../add-seller-address/add-seller-address.component';
-import { UpdateSellerAddressRequestDto } from 'src/app/modules/shared/models/update-seller-address-request-dto';
 import { UpdateSellerAddressComponent } from '../update-seller-address/update-seller-address.component';
 import { DeliveryAddressDtoVersion2 } from 'src/app/modules/customer/models/response/delivery-address-dto-version2';
 
@@ -114,30 +113,8 @@ export class SellerAddressesDialogComponent implements OnInit {
       data: address,
       maxWidth: '50em',
     });
-    dialogRef.afterClosed().subscribe((newAddress) => {
-      if (newAddress) {
-        const index = this.data.customer.deliveryAddresses.indexOf(address);
-        if (index !== -1) {
-          const updateRequest: UpdateSellerAddressRequestDto = {
-            newAddress: newAddress.address,
-            newCityKey: newAddress.newCityKey,
-            newDistrictKey: newAddress.newDistrictKey,
-            newNeighbourhoodKey: newAddress.newNeighbourhoodKey,
-          };
-          this.sellerAddressService
-            .updateSellerAddressById(updateRequest, this.data.id)
-            .subscribe((response) => {
-              if (response.success) {
-                this.getAllSellerAddresses[index] = newAddress;
-                this.toastrService.success('Adres başarıyla güncellendi.');
-                this.getAllSellerAddressesBySellerId();
-              } else {
-                this.toastrService.error(response.message) ||
-                  'Adres güncellenirken bir hata oluştu.';
-              }
-            });
-        }
-      }
+    dialogRef.componentInstance.addressUpdated.subscribe(() => {
+      this.getAllSellerAddressesBySellerId();
     });
   }
 }
