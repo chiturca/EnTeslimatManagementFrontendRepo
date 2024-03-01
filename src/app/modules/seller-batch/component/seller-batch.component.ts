@@ -1,5 +1,4 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { DatePipe } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectorRef,
@@ -16,8 +15,13 @@ import { MatTableDataSource } from '@angular/material/table';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { UserService } from '../../user/services/user.service';
+import { SellerBatchesService } from '../services/seller-batches.service';
+import { CityService } from '../../shared/city/services/city.service';
 import { GetUserByRefreshTokenResponseDtoModel } from '../../user/models/response/get-user-by-refresh-token-response-dto-model';
+import { GetAllSellerBatchesForManagementResponseDto } from '../models/get-all-seller-batches-for-management-response-dto';
+import { City } from '../../shared/city/models/city';
 import { EntityStatuses } from '../../customer/models/enums/entity-statuses';
+import { SellerBatchStatusEnum } from '../models/enums/seller-batch-status-enum';
 
 @Component({
   selector: 'app-seller-batch',
@@ -28,29 +32,36 @@ export class SellerBatchComponent implements OnInit, AfterViewInit {
   isLoaded: boolean = false;
   getUserFromAuthByDtoModel: GetUserByRefreshTokenResponseDtoModel;
   searchInputControl: FormControl = new FormControl('');
-  // dataSource!: MatTableDataSource<>;
-  dataSource: any;
+  dataSource!: MatTableDataSource<GetAllSellerBatchesForManagementResponseDto>;
+  cities: City[] = [];
+  selectedCityName: string = '';
+  selectedCityId: number = 0;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatAutocomplete) auto!: MatAutocomplete;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   constructor(
     private userService: UserService,
+    private sellerBatchesService: SellerBatchesService,
+    private cityService: CityService,
     private toastrService: ToastrService,
     private changeDetectorRef: ChangeDetectorRef,
     private _liveAnnouncer: LiveAnnouncer,
-    private dialog: MatDialog,
-    private datePipe: DatePipe
+    private dialog: MatDialog
   ) {
-    // this.dataSource = new MatTableDataSource<>();
+    this.dataSource =
+      new MatTableDataSource<GetAllSellerBatchesForManagementResponseDto>();
     this.getUserFromAuthByDtoModel =
       {} as GetUserByRefreshTokenResponseDtoModel;
   }
   ngOnInit(): void {
+    this.getUserFromAuthByDto();
+    this.getAllSellerBatchesForManagement();
+    this.getAllCities();
     this.setupFilter();
   }
   ngAfterViewInit(): void {
-    // this.dataSource.paginator = this.paginator;
-    // this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
     this.changeDetectorRef.detectChanges();
   }
   setupFilter(): void {
@@ -65,10 +76,10 @@ export class SellerBatchComponent implements OnInit, AfterViewInit {
       });
   }
   applyFilter(filterValue: string) {
-    // this.dataSource.filter = filterValue.trim().toLowerCase();
-    // if (this.dataSource.paginator) {
-    //   this.dataSource.paginator.firstPage();
-    // }
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
   announceSortChange(sortState: Sort) {
     if (sortState.direction) {
@@ -77,11 +88,85 @@ export class SellerBatchComponent implements OnInit, AfterViewInit {
       this._liveAnnouncer.announce('Sorting cleared');
     }
   }
+  getAllCities() {
+    this.cityService.getAllCities().subscribe({
+      next: (response) => {
+        this.cities = response.data;
+      },
+      error: (error) =>
+        this.toastrService.error('Şehirler yüklenirken bir hata oluştu.'),
+    });
+  }
+  getCityNameById(cityId: number): string {
+    const city = this.cities.find((c) => c.id === cityId);
+    return city ? city.cityName : '';
+  }
   getUserFromAuthByDto() {
     this.userService.getUserFromAuthByDto().subscribe((response) => {
       this.getUserFromAuthByDtoModel = response.data;
       this.isLoaded = false;
+      this.getAllSellerBatchesForManagement();
     });
+  }
+  getAllSellerBatchesForManagement(): void {
+    this.sellerBatchesService.getAllSellerBatchesForManagement().subscribe({
+      next: (response) => {
+        this.dataSource.data = response.data.reverse();
+        this.isLoaded = response.success;
+        this.changeDetectorRef.detectChanges();
+      },
+      error: (httpErrorResponse) => {
+        this.toastrService.error(httpErrorResponse.error.message);
+      },
+    });
+  }
+  getBatchStatusLabel(batchStatus: SellerBatchStatusEnum): string {
+    switch (batchStatus) {
+      case SellerBatchStatusEnum.Created:
+        return 'Oluşturuldu';
+      case SellerBatchStatusEnum.ApprovedBySeller:
+        return 'Onaylandı';
+      case SellerBatchStatusEnum.AssignedToCarrier:
+        return 'Taşıyıcıya atandı';
+      case SellerBatchStatusEnum.ReceivedByWareHouse:
+        return 'Depo tarafından alındı';
+      case SellerBatchStatusEnum.ResolvedByWareWarehouse:
+        return 'Depo tarafından çözüldü';
+      default:
+        return 'Bilinmeyen Durum';
+    }
+  }
+  getBatchStatusBg(batchStatus: SellerBatchStatusEnum): string {
+    switch (batchStatus) {
+      case 0:
+        return '#fed7aa';
+      case 1:
+        return '#fde68a';
+      case 2:
+        return '#fde047';
+      case 3:
+        return '#d9f99d';
+      case 4:
+        return '#86efac';
+      default:
+        return '#9ca3af';
+    }
+  }
+  getBatchStatusColor(batchStatus: SellerBatchStatusEnum): string {
+    switch (batchStatus) {
+      case 0:
+        return '#7c2d12';
+      case 1:
+        return '#92400e';
+      case 2:
+        return '#854d0e';
+      case 3:
+        return '#3f6212';
+      case 4:
+        return '#166534';
+      default:
+        return '#4b5563';
+    }
   }
   mapEntityStatus(type: EntityStatuses): string {
     switch (type) {
