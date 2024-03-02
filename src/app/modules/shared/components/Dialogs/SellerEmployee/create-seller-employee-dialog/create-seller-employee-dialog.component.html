@@ -1,0 +1,80 @@
+<div>
+  <h2 mat-dialog-title>Satıcı Çalışanı Oluştur</h2>
+  <mat-dialog-content class="mat-typography">
+    <form [formGroup]="createSellerEmployeeForm">
+      <mat-form-field appearance="fill" style="width: 100%">
+        <mat-label>Kimlik Numarası</mat-label>
+        <input matInput formControlName="identityNumber" />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" style="width: 100%">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" style="width: 100%">
+        <mat-label>Adı</mat-label>
+        <input matInput formControlName="firstName" />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" style="width: 100%">
+        <mat-label>Ortanca Adı (Varsa)</mat-label>
+        <input matInput formControlName="middleName" />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" style="width: 100%">
+        <mat-label>Soyadı</mat-label>
+        <input matInput formControlName="lastName" />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" style="width: 100%">
+        <mat-label>Telefon</mat-label>
+        <input matInput formControlName="phone" />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" style="width: 100%">
+        <mat-label>Satıcı Şirket</mat-label>
+        <mat-select
+          formControlName="sellerId"
+          (selectionChange)="onSellerChange()"
+        >
+          <mat-option *ngFor="let seller of sellers" [value]="seller.id">
+            {{ seller.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" style="width: 100%">
+        <mat-label>Satıcı Şubesi</mat-label>
+        <mat-select formControlName="sellerAddressId">
+          <mat-option
+            *ngFor="let sellerAddress of sellerAddresses"
+            [value]="sellerAddress.id"
+          >
+            {{ sellerAddress.address }}
+            <b
+              >/ {{ sellerAddress.neighbourhoodName }} /
+              {{ sellerAddress.districtName }} / {{ sellerAddress.cityName }}</b
+            >
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" style="width: 100%">
+        <mat-label>Satıcı Çalışan Unvanı</mat-label>
+        <mat-select formControlName="sellerEmployeeTitle">
+          <mat-option
+            *ngFor="let title of sellerEmployeeTitles"
+            [value]="title.value"
+          >
+            {{ title.label }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button (click)="onSubmit()">Ekle</button>
+    <button mat-button mat-dialog-close>İptal</button>
+  </mat-dialog-actions>
+</div>

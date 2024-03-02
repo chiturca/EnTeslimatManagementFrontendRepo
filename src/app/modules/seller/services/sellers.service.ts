@@ -19,6 +19,11 @@ export class SellersService {
       this.baseApiUrl + 'getAll'
     );
   }
+  getActiveSellers(): Observable<ListResponseModel<GetAllSellerResponseDto>> {
+    return this.httpClient.get<ListResponseModel<GetAllSellerResponseDto>>(
+      this.baseApiUrl + 'getActiveSellers'
+    );
+  }
   createSeller(
     createSellerRequestDto: CreateSellerRequestDto
   ): Observable<ResponseModel> {

@@ -1,1 +1,38 @@
-<app-routes-container><p>seller-employee works!</p></app-routes-container>
+<app-routes-container>
+  <mat-card style="width: 100%">
+    <mat-card-header>
+      <div class="header-container">
+        <h2 style="margin-right: 1.25rem">Satıcı Çalışanları</h2>
+        <div class="addSearchHolder">
+          <button
+            matTooltip="Yeni Satıcı Ekle"
+            style="margin: 0 1.5rem"
+            aria-label="Satıcı Çalışanı ekle"
+            (click)="openCreateSellerEmployeeDialog()"
+          >
+            <mat-icon class="addBtn">control_point</mat-icon>
+          </button>
+          <mat-form-field appearance="fill">
+            <mat-icon matPrefix>search</mat-icon>
+            <input
+              matInput
+              placeholder="Satıcı Çalışanı Ara"
+              [formControl]="searchInputControl"
+            />
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-card-header>
+    <mat-card-content>
+      <p>Table</p>
+    </mat-card-content>
+    <mat-card-footer
+      ><mat-paginator
+        #paginator
+        [pageSizeOptions]="[25, 50, 75, 100]"
+        showFirstLastButtons
+      >
+      </mat-paginator
+    ></mat-card-footer>
+  </mat-card>
+</app-routes-container>

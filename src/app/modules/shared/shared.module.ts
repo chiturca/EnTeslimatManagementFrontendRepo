@@ -28,6 +28,7 @@ import { AddSellerAddressComponent } from './components/Dialogs/Seller/add-selle
 import { UpdateSellerAddressComponent } from './components/Dialogs/Seller/update-seller-address/update-seller-address.component';
 import { PackageDetailsDialogComponent } from './components/Dialogs/Package/package-details-dialog/package-details-dialog.component';
 import { CreateSellerDialogComponent } from './components/Dialogs/Seller/create-seller-dialog/create-seller-dialog.component';
+import { CreateSellerEmployeeDialogComponent } from './components/Dialogs/SellerEmployee/create-seller-employee-dialog/create-seller-employee-dialog.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { CreateSellerDialogComponent } from './components/Dialogs/Seller/create-
     UpdateSellerAddressComponent,
     PackageDetailsDialogComponent,
     CreateSellerDialogComponent,
+    CreateSellerEmployeeDialogComponent,
   ],
   imports: [
     CommonModule,
