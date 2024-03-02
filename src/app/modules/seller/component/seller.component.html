@@ -95,12 +95,7 @@
             Şubeler
           </th>
           <td mat-cell *matCellDef="let seller">
-            <button
-              mat-button
-              [disabled]="seller.entityStatus == 1"
-              [ngClass]="{ 'disabled-button': seller.entityStatus == 1 }"
-              (click)="openAddressesDialog(seller)"
-            >
+            <button mat-button (click)="openAddressesDialog(seller)">
               Şubeleri Görüntüle
             </button>
           </td>
