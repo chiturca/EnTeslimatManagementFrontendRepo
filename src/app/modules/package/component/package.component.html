@@ -28,12 +28,18 @@
               <mat-expansion-panel style="max-width: max-content">
                 <mat-expansion-panel-header>
                   <mat-panel-title>
-                    <b>{{ package.packageBarcode }}</b>
+                    <b
+                      [ngClass]="{
+                        'disabled-button': package.entityStatus == 1
+                      }"
+                      >{{ package.packageBarcode }}</b
+                    >
                   </mat-panel-title>
                 </mat-expansion-panel-header>
                 <button
                   (click)="openPackageDetails(package.packageId)"
                   style="display: flex; align-items: center"
+                  [disabled]="package.entityStatus == 1"
                 >
                   <mat-icon>list</mat-icon>
                   Paket Detay Görüntüle
@@ -45,37 +51,79 @@
         <ng-container matColumnDef="sellerName">
           <th mat-header-cell *matHeaderCellDef>Satıcı Adı</th>
           <td mat-cell *matCellDef="let package">
-            <div class="grayBg">{{ package.sellerName }}</div>
+            <div
+              class="grayBg"
+              [ngClass]="{
+                'disabled-button': package.entityStatus == 1
+              }"
+            >
+              {{ package.sellerName }}
+            </div>
           </td>
         </ng-container>
         <ng-container matColumnDef="sellerAddressName">
           <th mat-header-cell *matHeaderCellDef>Satıcı Adresi</th>
           <td mat-cell *matCellDef="let package">
-            <div class="grayBg">{{ package.sellerAddressName }}</div>
+            <div
+              class="grayBg"
+              [ngClass]="{
+                'disabled-button': package.entityStatus == 1
+              }"
+            >
+              {{ package.sellerAddressName }}
+            </div>
           </td>
         </ng-container>
         <ng-container matColumnDef="customerName">
           <th mat-header-cell *matHeaderCellDef>Müşteri İsmi</th>
           <td mat-cell *matCellDef="let package">
-            <div class="grayBg">{{ package.customerName }}</div>
+            <div
+              class="grayBg"
+              [ngClass]="{
+                'disabled-button': package.entityStatus == 1
+              }"
+            >
+              {{ package.customerName }}
+            </div>
           </td>
         </ng-container>
         <ng-container matColumnDef="desi">
           <th mat-header-cell *matHeaderCellDef>Desi</th>
           <td mat-cell *matCellDef="let package">
-            <div class="grayBg">{{ package.desi || "Belirtilmemiş" }}</div>
+            <div
+              class="grayBg"
+              [ngClass]="{
+                'disabled-button': package.entityStatus == 1
+              }"
+            >
+              {{ package.desi || "Belirtilmemiş" }}
+            </div>
           </td>
         </ng-container>
         <ng-container matColumnDef="weight">
           <th mat-header-cell *matHeaderCellDef>Ağırlık</th>
           <td mat-cell *matCellDef="let package">
-            <div class="grayBg">{{ package.weight || "Belirtilmemiş" }}</div>
+            <div
+              class="grayBg"
+              [ngClass]="{
+                'disabled-button': package.entityStatus == 1
+              }"
+            >
+              {{ package.weight || "Belirtilmemiş" }}
+            </div>
           </td>
         </ng-container>
         <ng-container matColumnDef="price">
           <th mat-header-cell *matHeaderCellDef>Fiyat</th>
           <td mat-cell *matCellDef="let package">
-            <div class="grayBg">{{ package.price || "Belirtilmemiş" }}</div>
+            <div
+              class="grayBg"
+              [ngClass]="{
+                'disabled-button': package.entityStatus == 1
+              }"
+            >
+              {{ package.price || "Belirtilmemiş" }}
+            </div>
           </td>
         </ng-container>
         <ng-container matColumnDef="deliveryStatusType">
@@ -83,6 +131,9 @@
           <td mat-cell *matCellDef="let package">
             <div
               class="status"
+              [ngClass]="{
+                'disabled-button': package.entityStatus == 1
+              }"
               [style.color]="
                 getDeliveryStatusEnumColor(package.deliveryStatusType)
               "
