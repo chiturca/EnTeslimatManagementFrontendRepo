@@ -50,11 +50,6 @@ export class RoutesContainerComponent {
       active: false,
     },
     {
-      header: 'Emir Yönetimi',
-      routes: [{ label: 'Emir İşlemleri', route: '/order' }],
-      active: false,
-    },
-    {
       header: 'Finans Yönetimi',
       routes: [{ label: 'Finans İşlemleri', route: '/finance' }],
       active: false,
@@ -71,7 +66,10 @@ export class RoutesContainerComponent {
     },
     {
       header: 'Satıcı Yönetimi',
-      routes: [{ label: 'Satıcı İşlemleri', route: '/seller' }],
+      routes: [
+        { label: 'Satıcı İşlemleri', route: '/seller' },
+        { label: 'Satıcı Çalışanı İşlemleri', route: '/seller-employee' },
+      ],
       active: false,
     },
     {

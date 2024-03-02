@@ -22,6 +22,7 @@ import { WarehouseRegionModule } from './modules/warehouse-region/warehouse-regi
 import { DashboardModule } from './modules/dashboard/dashboard.module';
 import { FinanceModule } from './modules/finance/finance.module';
 import { CustomerModule } from './modules/customer/customer.module';
+import { SellerEmployeeModule } from './modules/seller-employee/seller-employee.module';
 registerLocaleData(localeTr);
 
 @NgModule({
@@ -37,6 +38,7 @@ registerLocaleData(localeTr);
     PackageModule,
     SellerModule,
     SellerBatchModule,
+    SellerEmployeeModule,
     UserModule,
     DashboardModule,
     VehicleModule,
