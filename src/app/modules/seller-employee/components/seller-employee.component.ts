@@ -14,12 +14,13 @@ import { GetUserByRefreshTokenResponseDtoModel } from '../../user/models/respons
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { DatePipe } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { UserService } from '../../user/services/user.service';
 import { GetSellerEmployeeForManagementResponseDto } from '../models/get-seller-employee-for-management-response-dto';
 import { SellerEmployeesService } from '../services/seller-employees.service';
 import { CreateSellerEmployeeDialogComponent } from '../../shared/components/Dialogs/SellerEmployee/create-seller-employee-dialog/create-seller-employee-dialog.component';
-import { debounceTime, distinctUntilChanged, map } from 'rxjs';
+import { EntityStatuses } from '../../customer/models/enums/entity-statuses';
 
 @Component({
   selector: 'app-seller-employee',
@@ -88,10 +89,54 @@ export class SellerEmployeeComponent implements OnInit, AfterViewInit {
       this.getAllSellerEmployeesForManagement();
     });
   }
-  getAllSellerEmployeesForManagement() {}
+  getAllSellerEmployeesForManagement(): void {
+    this.sellerEmployeesService.getAllSellerEmployeesForManagement().subscribe({
+      next: (response) => {
+        this.dataSource.data = response.data.reverse();
+        this.isLoaded = response.success;
+        this.changeDetectorRef.detectChanges();
+      },
+      // error: (httpErrorResponse) => {
+      //   this.toastrService.error(httpErrorResponse.error.message);
+      // },
+    });
+  }
   openCreateSellerEmployeeDialog(): void {
     const dialogRef = this.dialog.open(CreateSellerEmployeeDialogComponent, {
       maxWidth: '50em',
     });
+  }
+  formatCreatedTime(createdTime: Date | null): string {
+    return this.datePipe.transform(createdTime, 'dd.MM.yyyy HH:mm') || '';
+  }
+  mapEntityStatus(type: EntityStatuses): string {
+    switch (type) {
+      case EntityStatuses.active:
+        return 'Aktif Satıcı';
+      case EntityStatuses.inactive:
+        return 'Pasif Satıcı';
+      default:
+        return 'Bilinmeyen Satıcı Tipi';
+    }
+  }
+  getColor(type: EntityStatuses): string {
+    switch (type) {
+      case EntityStatuses.active:
+        return 'rgb(34 197 94)';
+      case EntityStatuses.inactive:
+        return 'red';
+      default:
+        return 'Bilinmeyen Satıcı Tipi';
+    }
+  }
+  getBg(type: EntityStatuses): string {
+    switch (type) {
+      case EntityStatuses.active:
+        return 'rgba(34, 197, 94, 0.2)';
+      case EntityStatuses.inactive:
+        return 'rgba(255, 0, 0, 0.2)';
+      default:
+        return 'Bilinmeyen Satıcı Tipi';
+    }
   }
 }
