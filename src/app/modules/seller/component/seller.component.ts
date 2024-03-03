@@ -23,6 +23,7 @@ import { EntityStatuses } from '../../customer/models/enums/entity-statuses';
 import { SellerAddressesDialogComponent } from '../../shared/components/Dialogs/Seller/seller-addresses-dialog/seller-addresses-dialog.component';
 import { CreateSellerDialogComponent } from '../../shared/components/Dialogs/Seller/create-seller-dialog/create-seller-dialog.component';
 import { ConfirmationDialogComponent } from '../../shared/components/Dialogs/confirmation-dialog/confirmation-dialog.component';
+import { SellerCompanyTypeEnum } from '../models/enums/seller-company-type-enum';
 
 @Component({
   selector: 'app-seller',
@@ -58,17 +59,6 @@ export class SellerComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    if (this.sort) {
-      this.sort.sortChange.subscribe((sort: Sort) => {
-        if (sort.active === 'sellerName' && sort.direction) {
-          this.dataSource.data = this.dataSource.data.sort(
-            (a, b) =>
-              this.compareTurkishAlphabet(a.name, b.name) *
-              (sort.direction === 'asc' ? 1 : -1)
-          );
-        }
-      });
-    }
     this.changeDetectorRef.detectChanges();
   }
   setupFilter(): void {
@@ -94,20 +84,6 @@ export class SellerComponent implements OnInit, AfterViewInit {
     } else {
       this._liveAnnouncer.announce('Sorting cleared');
     }
-  }
-  compareTurkishAlphabet(a: string, b: string): number {
-    const valueA = a?.toLowerCase();
-    const valueB = b?.toLowerCase();
-
-    const alphabet = 'abcçdefgğhıijklmnoöprsştuüvyz';
-    const indexA = alphabet.indexOf(valueA);
-    const indexB = alphabet.indexOf(valueB);
-
-    if (indexA === -1 || indexB === -1) {
-      return valueA.localeCompare(valueB);
-    }
-
-    return indexA - indexB;
   }
   getUserFromAuthByDto() {
     this.userService.getUserFromAuthByDto().subscribe((response) => {
@@ -195,6 +171,42 @@ export class SellerComponent implements OnInit, AfterViewInit {
   }
   formatCreatedTime(createdTime: Date | null): string {
     return this.datePipe.transform(createdTime, 'dd.MM.yyyy HH:mm') || '';
+  }
+  mapSellerCompanyTypeEnum(status: SellerCompanyTypeEnum): string {
+    switch (status) {
+      case SellerCompanyTypeEnum.Limited:
+        return 'Limited Şirketi';
+      case SellerCompanyTypeEnum.Incorporated:
+        return 'Şahıs Mülkiyeti Şirketi';
+      case SellerCompanyTypeEnum.SoleProprietorship:
+        return 'Anonim Şirket';
+      default:
+        return 'Bilinmeyen Durum';
+    }
+  }
+  getSellerCompanyTypeEnumBg(status: SellerCompanyTypeEnum): string {
+    switch (status) {
+      case SellerCompanyTypeEnum.Limited:
+        return '#fde047';
+      case SellerCompanyTypeEnum.Incorporated:
+        return '#d9f99d';
+      case SellerCompanyTypeEnum.SoleProprietorship:
+        return '#86efac';
+      default:
+        return '#f3f4f6';
+    }
+  }
+  getSellerCompanyTypeEnumColor(status: SellerCompanyTypeEnum): string {
+    switch (status) {
+      case SellerCompanyTypeEnum.Limited:
+        return '#854d0e';
+      case SellerCompanyTypeEnum.Incorporated:
+        return '#3f6212';
+      case SellerCompanyTypeEnum.SoleProprietorship:
+        return '#14532d';
+      default:
+        return '#4b5563';
+    }
   }
   mapEntityStatus(type: EntityStatuses): string {
     switch (type) {

@@ -129,6 +129,30 @@
             </div>
           </td>
         </ng-container>
+        <ng-container matColumnDef="sellerCompanyType">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            sortActionDescription="Sort by sellerCompanyType"
+          >
+            Şirket Türü
+          </th>
+          <td mat-cell *matCellDef="let seller">
+            <div
+              class="status"
+              [style.color]="
+                getSellerCompanyTypeEnumColor(seller.sellerCompanyType)
+              "
+              [style.background-color]="
+                getSellerCompanyTypeEnumBg(seller.sellerCompanyType)
+              "
+              [ngClass]="{ 'disabled-button': seller.entityStatus == 1 }"
+            >
+              {{ mapSellerCompanyTypeEnum(seller.sellerCompanyType) }}
+            </div>
+          </td>
+        </ng-container>
         <ng-container matColumnDef="entityStatus">
           <th
             mat-header-cell
@@ -156,6 +180,7 @@
             'createdTime',
             'address',
             'operations',
+            'sellerCompanyType',
             'entityStatus'
           ]"
         ></tr>
@@ -169,6 +194,7 @@
               'createdTime',
               'address',
               'operations',
+              'sellerCompanyType',
               'entityStatus'
             ]
           "
