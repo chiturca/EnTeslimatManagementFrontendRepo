@@ -21,6 +21,7 @@ import { GetSellerEmployeeForManagementResponseDto } from '../models/get-seller-
 import { SellerEmployeesService } from '../services/seller-employees.service';
 import { CreateSellerEmployeeDialogComponent } from '../../shared/components/Dialogs/SellerEmployee/create-seller-employee-dialog/create-seller-employee-dialog.component';
 import { EntityStatuses } from '../../customer/models/enums/entity-statuses';
+import { SellerEmployeeTitleEnum } from '../models/enums/seller-employee-title-enum';
 
 @Component({
   selector: 'app-seller-employee',
@@ -96,9 +97,9 @@ export class SellerEmployeeComponent implements OnInit, AfterViewInit {
         this.isLoaded = response.success;
         this.changeDetectorRef.detectChanges();
       },
-      // error: (httpErrorResponse) => {
-      //   this.toastrService.error(httpErrorResponse.error.message);
-      // },
+      error: (httpErrorResponse) => {
+        this.toastrService.error(httpErrorResponse.error.message);
+      },
     });
   }
   openCreateSellerEmployeeDialog(): void {
@@ -108,6 +109,42 @@ export class SellerEmployeeComponent implements OnInit, AfterViewInit {
   }
   formatCreatedTime(createdTime: Date | null): string {
     return this.datePipe.transform(createdTime, 'dd.MM.yyyy HH:mm') || '';
+  }
+  mapSellerEmployeeTitleEnum(status: SellerEmployeeTitleEnum): string {
+    switch (status) {
+      case SellerEmployeeTitleEnum.Regular:
+        return 'Çalışan';
+      case SellerEmployeeTitleEnum.Moderator:
+        return 'Moderatör';
+      case SellerEmployeeTitleEnum.Owner:
+        return 'Şirket Sahibi';
+      default:
+        return 'Bilinmeyen Durum';
+    }
+  }
+  getSellerEmployeeTitleEnumBg(status: SellerEmployeeTitleEnum): string {
+    switch (status) {
+      case SellerEmployeeTitleEnum.Regular:
+        return '#fde047';
+      case SellerEmployeeTitleEnum.Moderator:
+        return '#d9f99d';
+      case SellerEmployeeTitleEnum.Owner:
+        return '#86efac';
+      default:
+        return '#f3f4f6';
+    }
+  }
+  getSellerEmployeeTitleEnumColor(status: SellerEmployeeTitleEnum): string {
+    switch (status) {
+      case SellerEmployeeTitleEnum.Regular:
+        return '#854d0e';
+      case SellerEmployeeTitleEnum.Moderator:
+        return '#3f6212';
+      case SellerEmployeeTitleEnum.Owner:
+        return '#14532d';
+      default:
+        return '#4b5563';
+    }
   }
   mapEntityStatus(type: EntityStatuses): string {
     switch (type) {

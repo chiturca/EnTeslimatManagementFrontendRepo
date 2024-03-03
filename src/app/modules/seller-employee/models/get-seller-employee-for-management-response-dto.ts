@@ -1,4 +1,5 @@
 import { EntityStatuses } from '../../customer/models/enums/entity-statuses';
+import { SellerEmployeeTitleEnum } from './enums/seller-employee-title-enum';
 
 export interface GetSellerEmployeeForManagementResponseDto {
   id: number;
@@ -9,5 +10,5 @@ export interface GetSellerEmployeeForManagementResponseDto {
   sellerName: string;
   sellerAddressName: string;
   entityStatus: EntityStatuses;
-  roles: string[];
+  sellerEmployeeTitle: SellerEmployeeTitleEnum;
 }
