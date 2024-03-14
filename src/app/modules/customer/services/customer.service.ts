@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from 'src/app/enviroments/enviroment.prod';
 import { ListResponseModel } from 'src/app/generic-models/list-response-model';
 import { GetAllCustomersForManagementResponseDto } from '../models/response/get-all-customers-for-management-response-dto';
 import { ResponseModel } from 'src/app/generic-models/response-model';
+import { environment } from 'src/app/enviroments/enviroment';
 
 @Injectable({
   providedIn: 'root',

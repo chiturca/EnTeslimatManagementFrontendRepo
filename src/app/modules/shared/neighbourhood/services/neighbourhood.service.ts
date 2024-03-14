@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from 'src/app/enviroments/enviroment.prod';
 import { SingleResponseModel } from 'src/app/generic-models/single-response-model';
 import { Neighbourhood } from '../models/neighbourhood';
+import { environment } from 'src/app/enviroments/enviroment';
 
 @Injectable({
   providedIn: 'root',

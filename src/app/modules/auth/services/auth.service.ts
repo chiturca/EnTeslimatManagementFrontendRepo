@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { UserLoginModel } from '../models/user-login-model';
-import { environment } from 'src/app/enviroments/enviroment.prod';
 import { ResponseModel } from 'src/app/generic-models/response-model';
 import { UserRegisterModel } from '../models/user-register-model';
 import { CheckUserAuthenticationModel } from '../models/check-user-authentication-model';
@@ -10,6 +9,7 @@ import { SingleResponseModel } from 'src/app/generic-models/single-response-mode
 import { AccessToken } from '../models/access-token';
 import { CookieService } from 'ngx-cookie-service';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { environment } from 'src/app/enviroments/enviroment';
 
 @Injectable({
   providedIn: 'root',

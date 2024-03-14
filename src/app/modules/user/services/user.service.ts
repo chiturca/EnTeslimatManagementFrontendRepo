@@ -1,9 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from 'src/app/enviroments/enviroment.prod';
 import { SingleResponseModel } from 'src/app/generic-models/single-response-model';
 import { GetUserByRefreshTokenResponseDtoModel } from '../models/response/get-user-by-refresh-token-response-dto-model';
+import { environment } from 'src/app/enviroments/enviroment';
 
 @Injectable({
   providedIn: 'root',

@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from 'src/app/enviroments/enviroment.prod';
 import { ResponseModel } from 'src/app/generic-models/response-model';
 import { UpdateDeliveryAddressDtoForManagement } from '../models/update-delivery-address-dto-for-management';
 import { AddDeliveryAddressToExistCustomerForManagementDto } from '../models/add-delivery-address-to-exist-customer-for-management-dto';
+import { environment } from 'src/app/enviroments/enviroment';
 
 @Injectable({
   providedIn: 'root',
